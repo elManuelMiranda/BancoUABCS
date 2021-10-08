@@ -18,132 +18,208 @@ import javax.swing.JTextField;
 
 public class Registrar extends JFrame {
 
-    JFrame signUpWindow;
+    JFrame registrarWindow;
     JPanel panelPresentacion;
     JLabel fondoPresentacion;
-    JButton accept;
-    JTextField name, fLastName, sLastName, email, password, cpassword;
-    JLabel field1 = new JLabel();
-    JLabel field2 = new JLabel();
-    JLabel field3 = new JLabel();
-    JLabel field4 = new JLabel();
-    public static Statement stmt;
+    JButton aceptar;
+    public static Statement stat;
+    int cont = 0;
+    JTextField usuario = new JTextField("");
+    JTextField apellido = new JTextField("");
+    JTextField segundoapellido = new JTextField("");
+    JTextField correo = new JTextField("");
+    JTextField contraseña = new JTextField("");
+    JTextField cpassword = new JTextField("");
+    JLabel regi1 = new JLabel();
+    JLabel regi2 = new JLabel();
+    JLabel regi3 = new JLabel();
+    JLabel regi5 = new JLabel();
+    JLabel regi6 = new JLabel();
+
+    public void Validar() {
+        if (usuario.getText().equals("")) {
+            regi1.setVisible(true);
+            cont++;
+        } else {
+            regi1.setVisible(false);
+        }
+        if (apellido.getText().equals("")) {
+            regi2.setVisible(true);
+            cont++;
+        } else {
+            regi2.setVisible(false);
+        }
+        if (correo.getText().equals("")) {
+            regi3.setVisible(true);
+            cont++;
+        } else {
+            regi3.setVisible(false);
+        }
+        if (contraseña.getText().equals("")) {
+            regi5.setVisible(true);
+            cont++;
+        } else {
+            regi5.setVisible(false);
+        }
+        
+         if (cpassword.getText().equals("")  )  {
+            regi6.setVisible(true);
+            cont++;
+        } else {
+            regi6.setVisible(false);
+        }
+    }
 
     public Registrar() {
 
-        signUpWindow = new JFrame("Registro");
-        signUpWindow.setSize(600, 400);
-        signUpWindow.setLocationRelativeTo(null);
-        signUpWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        signUpWindow.setUndecorated(true);
-        signUpWindow.setLayout(null);
+        registrarWindow = new JFrame("Registro");
+        registrarWindow.setSize(600, 400);
+        registrarWindow.setLocationRelativeTo(null);
+        registrarWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        registrarWindow.setUndecorated(true);
+        registrarWindow.setLayout(null);
 
-        // ERROR FIELDS
-        field1.setIcon(new ImageIcon("error.png"));
-        field2.setIcon(new ImageIcon("error.png"));
-        field3.setIcon(new ImageIcon("error.png"));
-        field4.setIcon(new ImageIcon("error.png"));
-        field1.setBounds(520, 40, 30, 30);
-        field2.setBounds(520, 80, 30, 30);
-        field3.setBounds(520, 170, 30, 30);
-        field4.setBounds(520, 215, 30, 30);
-        field1.setVisible(false);
-        field2.setVisible(false);
-        field3.setVisible(false);
-        field4.setVisible(false);
-        signUpWindow.add(field1);
-        signUpWindow.add(field2);
-        signUpWindow.add(field3);
-        signUpWindow.add(field4);
+        //OCULTAR AVISO
+        regi1.setVisible(false);
+        regi2.setVisible(false);
+        regi3.setVisible(false);
+        regi5.setVisible(false);
+         regi6.setVisible(false);
 
         // PANEL DE PRESENTACION
         panelPresentacion = new JPanel();
-        panelPresentacion.setSize(signUpWindow.getWidth(), signUpWindow.getHeight());
+        panelPresentacion.setSize(registrarWindow.getWidth(), registrarWindow.getHeight());
         panelPresentacion.setLocation(0, 0);
         panelPresentacion.setLayout(null);
         panelPresentacion.setVisible(true);
 
-        // FIELDS DE DATOS DE USUARIO
-        name = new JTextField("");
-        name.setBounds(180, 35, 340, 30);
-        fLastName = new JTextField("");
-        fLastName.setBounds(320, 70, 200, 30);
-        sLastName = new JTextField("");
-        sLastName.setBounds(320, 120, 200, 30);
-        email = new JTextField("");
-        email.setBounds(320, 170, 200, 30);
-        password = new JTextField("");
-        password.setBounds(220, 210, 290, 30);
-        cpassword = new JTextField("");
-        cpassword.setBounds(300, 250, 210, 30);
-
         // BOTON ACEPTAR
-        accept = new JButton();
-        accept.setContentAreaFilled(false);
-        accept.setFocusable(false);
-        accept.setBorder(null);
-        accept.setOpaque(false);
-        accept.setBackground(new Color(0, 0, 0, 0));
-        accept.setIcon(new ImageIcon(("aceptar.png")));
-        accept.setBounds(300, 250, 200, 110);
+        aceptar = new JButton();
+        aceptar.setContentAreaFilled(false);
+        aceptar.setFocusable(false);
+        aceptar.setBorder(null);
+        aceptar.setOpaque(false);
+        aceptar.setBackground(new Color(0, 0, 0, 0));
+        aceptar.setIcon(new ImageIcon(("aceptar.png")));
+        aceptar.setBounds(300, 250, 200, 110);
 
-        // BOTON CANCELAR
-        JButton cancel = new JButton();
-        cancel.setFocusable(false);
-        cancel.setBorder(null);
-        cancel.setOpaque(false);
-        cancel.setContentAreaFilled(false);
-        cancel.setBackground(new Color(0, 0, 0, 0));
-        cancel.setIcon(new ImageIcon(("cancelar.png")));
-        cancel.setBounds(100, 250, 200, 110);
-        cancel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                signUpWindow.dispose();
-            }
-        });
+        // BOTON REGRESAR
+        JButton cancelar = new JButton();
+        cancelar.setFocusable(false);
+        cancelar.setBorder(null);
+        cancelar.setOpaque(false);
+        cancelar.setBackground(new Color(0, 0, 0, 0));
+        cancelar.setIcon(new ImageIcon(("cancelar.png")));
+        cancelar.setBounds(100, 250, 200, 110);
 
         // FONDO DE PRESENTACION
         fondoPresentacion = new JLabel();
         fondoPresentacion.setIcon(new ImageIcon("registrar.jpg"));
-        fondoPresentacion.setBounds(0, 0, signUpWindow.getWidth(), signUpWindow.getHeight());
+        fondoPresentacion.setBounds(0, 0, registrarWindow.getWidth(), registrarWindow.getHeight());
         fondoPresentacion.setVisible(true);
-        fondoPresentacion.add(accept);
-        fondoPresentacion.add(cancel);
+        fondoPresentacion.add(aceptar);
+        fondoPresentacion.add(cancelar);
         panelPresentacion.add(fondoPresentacion, 0);
 
-        signUpWindow.add(name);
-        signUpWindow.add(fLastName);
-        signUpWindow.add(sLastName);
-        signUpWindow.add(email);
-        signUpWindow.add(password);
-        signUpWindow.add(cpassword);
-        signUpWindow.add(fondoPresentacion);
-        signUpWindow.add(panelPresentacion);
-        signUpWindow.setVisible(true);
-    }
+        // BOTON CANCELAR
+        aceptar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                aceptar.setIcon(new ImageIcon("aceptar2.png"));
+            }
 
-    public void Check() {
-        if (name.getText().equals("")) {
-            field1.setVisible(true);
-        } else {
-            field1.setVisible(false);
-        }
-        if (fLastName.getText().equals("")) {
-            field2.setVisible(true);
-        } else {
-            field2.setVisible(false);
-        }
-        if (email.getText().equals("")) {
-            field3.setVisible(true);
-        } else {
-            field3.setVisible(false);
-        }
-        if (password.getText().equals("")) {
-            field4.setVisible(true);
-        } else {
-            field4.setVisible(false);
-        }
-    }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                aceptar.setIcon(new ImageIcon("aceptar.png"));
+            }
+        });
+        cancelar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                cancelar.setIcon(new ImageIcon("cancelar2.png"));
+            }
 
+            @Override
+            public void mouseExited(MouseEvent e) {
+                cancelar.setIcon(new ImageIcon("cancelar.png"));
+            }
+        });
+        cancelar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                registrarWindow.dispose();
+            }
+        });
+        // INGRESAR USUARIO Y CONTRASE A
+        usuario.setBounds(180, 35, 340, 30);
+        apellido.setBounds(320, 70, 200, 30);
+        segundoapellido.setBounds(320, 120, 200, 30);
+        correo.setBounds(320, 170, 200, 30);
+        contraseña.setBounds(220, 210, 290, 30);
+        cpassword.setBounds(300, 250, 210, 30);
+
+        //VALIDAD CAMPOS
+        regi1.setIcon(new ImageIcon(("error.png")));
+        regi2.setIcon(new ImageIcon(("error.png")));
+        regi3.setIcon(new ImageIcon(("error.png")));
+        regi5.setIcon(new ImageIcon(("error.png")));
+        regi6.setIcon(new ImageIcon(("error.png")));
+        regi1.setBounds(520, 35, 30, 30);
+        regi2.setBounds(520, 70, 30, 30);
+        regi3.setBounds(520, 170, 30, 30);
+        regi5.setBounds(520, 210, 30, 30);
+        regi6.setBounds(520, 250, 30, 30);
+        registrarWindow.add(regi1);
+        registrarWindow.add(regi2);
+        registrarWindow.add(regi3);
+        registrarWindow.add(regi5);
+        registrarWindow.add(regi6);
+
+        registrarWindow.add(usuario);
+        registrarWindow.add(apellido);
+        registrarWindow.add(segundoapellido);
+        registrarWindow.add(correo);
+        registrarWindow.add(contraseña);
+        registrarWindow.add(cpassword);
+        registrarWindow.add(fondoPresentacion);
+        registrarWindow.add(panelPresentacion);
+        registrarWindow.setVisible(true);
+
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cont = 0;
+                Validar();
+                System.out.println("contador=" + cont);
+                if (cont == 0) {
+                    if (usuario.getText() != null && apellido.getText() != null && contraseña.getText().equals(cpassword.getText()) ) {
+                        String nombre = usuario.getText();
+                        String apellido1 = apellido.getText();
+                        String apellido2 = segundoapellido.getText();
+                        String correo1 = correo.getText();
+                        String contraseña1 = Hash.md5(contraseña.getText());
+
+                        try {
+                            stat = ConexionMySQL.conexion.createStatement();
+
+                            String query = "INSERT INTO registro (nombre,primer_ap,segundo_ap,contraseña,correo) values('"
+                                    + nombre + "','" + apellido1 + "','" + apellido2 + "','" + contraseña1 + "','" + correo1 + "')";
+                            System.out.println(query);
+
+                            stat.executeUpdate(query);
+                        } catch (SQLException e1) {
+                        }
+
+                        repaint();
+                        validate();
+                        JOptionPane.showMessageDialog(null, "Registro completado");
+                        registrarWindow.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Las contraseñas no son iguales");
+                    }
+                }
+            }
+        });
+
+    }
 }

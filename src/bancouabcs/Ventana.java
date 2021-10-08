@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 public class Ventana extends JFrame {
 
+    JLabel fondoPresentacion;
     JFrame newRouteWindow;
     int cont = 0;
     int numregistros = 0;
@@ -33,7 +34,7 @@ public class Ventana extends JFrame {
     public Ventana() {
 
         setTitle("Banco");
-        setSize(1280, 768);
+        setSize(1000, 600);
         setVisible(true);
         setLocation(0, 0);
         setLayout(null);
@@ -96,9 +97,9 @@ public class Ventana extends JFrame {
         panelPresentacion.setLayout(null);
         panelPresentacion.setVisible(true);
         JLabel fondoPresentacion = new JLabel();
-        fondoPresentacion.setBounds(0, 0, 500, 300);
+        fondoPresentacion.setBounds(0, 0, 1000, 500);
         fondoPresentacion.setVisible(true);
-        fondoPresentacion.setIcon(new ImageIcon(("viaje.jpg")));
+        fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
 
         // BOTON NUEVA RUTA
@@ -107,14 +108,14 @@ public class Ventana extends JFrame {
         newRoute.setBorder(null);
         newRoute.setOpaque(false);
         newRoute.setBackground(new Color(0, 0, 0, 0));
-        newRoute.setIcon(new ImageIcon(("nuevaruta.png")));
-        newRoute.setBounds(150, 0, 200, 50);
+        newRoute.setIcon(new ImageIcon(("agregaru.png")));
+        newRoute.setBounds(100, 250, 100, 100);
         newRoute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 newRouteWindow = new JFrame();
-                newRouteWindow.setUndecorated(true);
+     
                 newRouteWindow.setSize(500, 300);
                 newRouteWindow.setLocationRelativeTo(null);
                 newRouteWindow.setLayout(null);
@@ -134,7 +135,7 @@ public class Ventana extends JFrame {
         history.setOpaque(false);
         history.setBackground(new Color(0, 0, 0, 0));
         history.setIcon(new ImageIcon(("historial.png")));
-        history.setBounds(350, 0, 200, 50);
+        history.setBounds(350,350, 100, 100);
         history.addActionListener(new ActionListener() {
             @SuppressWarnings("static-access")
             @Override
@@ -146,7 +147,24 @@ public class Ventana extends JFrame {
         });
         add(history);
         repaint();
-
+        
+        //BOTON TRNASACCION
+       
+        JButton transaccion = new JButton("");
+        transaccion.setFocusable(false);
+        transaccion.setBorder(null);
+        transaccion.setOpaque(false);
+        transaccion.setBackground(new Color(0, 0, 0, 0));
+        transaccion.setIcon(new ImageIcon(("transaccion.png")));
+        transaccion.setBounds(550,350, 100, 100);
+        transaccion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                setVisible(false);
+                Login login = new Login();
+            }
+        });
+add(transaccion);
         // BOTON CERRAR SESISION
         JButton logOut = new JButton("");
         logOut.setFocusable(false);
@@ -154,7 +172,7 @@ public class Ventana extends JFrame {
         logOut.setOpaque(false);
         logOut.setBackground(new Color(0, 0, 0, 0));
         logOut.setIcon(new ImageIcon(("cambiar.png")));
-        logOut.setBounds(560, 0, 310, 50);
+        logOut.setBounds(800,250, 100, 100);
         logOut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -163,7 +181,10 @@ public class Ventana extends JFrame {
             }
         });
         add(logOut);
-
+//fondo
+        add(fondoPresentacion);
+        repaint();
+        validate();
     }
 
 }

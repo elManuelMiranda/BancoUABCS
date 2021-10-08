@@ -109,7 +109,7 @@ public class Login {
 
         // IMAGEN DE PRESENTACION
         fondoPresentacion = new JLabel();
-        fondoPresentacion.setIcon(new ImageIcon("menu.gif"));
+        fondoPresentacion.setIcon(new ImageIcon("menu.png"));
         fondoPresentacion.setBounds(0, 0, loginWindow.getWidth(), loginWindow.getHeight());
         fondoPresentacion.setVisible(true);
         panelPresentacion.add(fondoPresentacion, 0);

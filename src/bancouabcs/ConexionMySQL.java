@@ -17,7 +17,7 @@ public class ConexionMySQL {
         try {
             final String Controlador = "org.gjt.mm.mysql.Driver";
             Class.forName(Controlador);
-            final String url_bd = "jdbc:mysql://localhost/login?characterEncoding=utf8";
+            final String url_bd = "jdbc:mysql://localhost/examen_u2_u3?characterEncoding=utf8";
             conexion = DriverManager.getConnection(url_bd, "root", "");
             sentencia = conexion.createStatement();
 
