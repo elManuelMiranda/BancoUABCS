@@ -34,9 +34,9 @@ public class Ventana extends JFrame {
     public Ventana() {
 
         setTitle("Banco");
-        setSize(1000, 600);
+        setSize(1000, 500);
         setVisible(true);
-        setLocation(0, 0);
+        setLocation(200, 150);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -52,7 +52,7 @@ public class Ventana extends JFrame {
         closeNRWindow.setContentAreaFilled(false);
         closeNRWindow.setBackground(new Color(0, 0, 0, 0));
         closeNRWindow.setIcon(new ImageIcon(("cerrar.png")));
-        closeNRWindow.setBounds(440, 0, 60, 60);
+        closeNRWindow.setBounds(800, 20, 200, 100);
         closeNRWindow.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -72,9 +72,9 @@ public class Ventana extends JFrame {
         });
 
         // BOTON ACEPTAR NUEVA RUTA
-        JButton accept = new JButton("Comprar viaje");
+        JButton accept = new JButton("Crear cuenta");
         accept.setIcon(new ImageIcon("aceptar.png"));
-        accept.setBounds(150, 200, 200, 80);
+        accept.setBounds(150, 260, 200, 100);
         accept.setBorder(null);
         accept.setBackground(null);
         accept.setContentAreaFilled(false);
@@ -101,6 +101,17 @@ public class Ventana extends JFrame {
         fondoPresentacion.setVisible(true);
         fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
+        
+            JPanel agregarcuenta = new JPanel();
+        agregarcuenta.setSize(this.getWidth(), this.getHeight());
+       agregarcuenta.setLocation(0, 0);
+        agregarcuenta.setLayout(null);
+        agregarcuenta.setVisible(true);
+        JLabel fondoagregarcuenta = new JLabel();
+        fondoagregarcuenta.setBounds(0, 0, 500, 400);
+        fondoagregarcuenta.setVisible(true);
+        fondoagregarcuenta.setIcon(new ImageIcon(("interfaz2.jpg")));
+        agregarcuenta.add(fondoagregarcuenta, 0);
 
         // BOTON NUEVA RUTA
         JButton newRoute = new JButton("");
@@ -109,25 +120,24 @@ public class Ventana extends JFrame {
         newRoute.setOpaque(false);
         newRoute.setBackground(new Color(0, 0, 0, 0));
         newRoute.setIcon(new ImageIcon(("agregaru.png")));
-        newRoute.setBounds(100, 250, 100, 100);
+        newRoute.setBounds(750, 80, 200, 100);
         newRoute.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 newRouteWindow = new JFrame();
      
-                newRouteWindow.setSize(500, 300);
+                newRouteWindow.setSize(500, 400);
                 newRouteWindow.setLocationRelativeTo(null);
                 newRouteWindow.setLayout(null);
                 newRouteWindow.setVisible(true);
                 newRouteWindow.add(accept);
                 newRouteWindow.add(closeNRWindow);
-                newRouteWindow.add(fondoPresentacion);
+                newRouteWindow.add(fondoagregarcuenta);
 
             }
         });
         add(newRoute);
-
         // BOTON HISTORIAL
         JButton history = new JButton("");
         history.setFocusable(false);
@@ -172,7 +182,7 @@ add(transaccion);
         logOut.setOpaque(false);
         logOut.setBackground(new Color(0, 0, 0, 0));
         logOut.setIcon(new ImageIcon(("cambiar.png")));
-        logOut.setBounds(800,250, 100, 100);
+        logOut.setBounds(750,20, 200, 100);
         logOut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

@@ -41,10 +41,10 @@ public class Registro {
         model.addColumn("Fecha");
         table.setModel(model);
         String[] titles = new String[4];
-        titles[0] = "Planeta de partida";
-        titles[1] = "Planeta de destino";
-        titles[2] = "Duracionn del viaje";
-        titles[3] = "Fecha";
+        titles[0] = "Fechas";
+        titles[1] = "Descripcion";
+        titles[2] = "Depositos";
+        titles[3] = "Retiros";
         model.addRow(titles);
         String[] dato = new String[4];
         try {

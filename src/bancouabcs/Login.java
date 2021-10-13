@@ -119,7 +119,7 @@ public class Login {
         fondoPresentacion.add(ver);
         // TEXTO USUARIO Y CONTRASEï¿½A
         JTextField correo = new JTextField("");
-        correo.setBounds(260, 165, 200, 40);
+        correo.setBounds(250, 110, 200, 40);
         correo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -128,7 +128,7 @@ public class Login {
         });
 
         contraseña.setEchoChar('*');
-        contraseña.setBounds(300, 230, 200, 40);
+        contraseña.setBounds(320, 170, 200, 40);
         contraseña.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
