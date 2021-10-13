@@ -145,7 +145,7 @@ public class Ventana extends JFrame {
         history.setOpaque(false);
         history.setBackground(new Color(0, 0, 0, 0));
         history.setIcon(new ImageIcon(("historial.png")));
-        history.setBounds(350,350, 100, 100);
+        history.setBounds(350,350, 200, 100);
         history.addActionListener(new ActionListener() {
             @SuppressWarnings("static-access")
             @Override
@@ -166,7 +166,7 @@ public class Ventana extends JFrame {
         transaccion.setOpaque(false);
         transaccion.setBackground(new Color(0, 0, 0, 0));
         transaccion.setIcon(new ImageIcon(("transaccion.png")));
-        transaccion.setBounds(550,350, 100, 100);
+        transaccion.setBounds(650,350, 200, 100);
         transaccion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
