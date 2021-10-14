@@ -262,9 +262,14 @@ public class Ventana extends JFrame {
                                 + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "');";
                         System.out.println(query);
                         stat.executeUpdate(query);
-                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number=" + destinyAcc + ";";
+                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number=" 
+                                + destinyAcc + ";";
                         System.out.println(query2);
                         stat.executeUpdate(query2);
+                        String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
+                                + destinyAcc + ";";
+                        System.out.println(query3);
+                        stat.executeUpdate(query3);
                     } catch (SQLException e1) {
                     }
 

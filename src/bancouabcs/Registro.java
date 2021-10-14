@@ -41,9 +41,14 @@ public class Registro {
         historyWindow.setUndecorated(false);
 
         // TABLA CON HISTORIAL DEL USUARIO
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table = new JTable();
         table.setBounds(10, 10, 1, 1);
-        DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Fechas");
         model.addColumn("Descripcion");
         model.addColumn("Depositos");
