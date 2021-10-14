@@ -1,6 +1,8 @@
 package bancouabcs;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -12,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,10 +24,16 @@ public class Registro {
     JTable table;
     JPanel panelPresentacion;
     JLabel fondoPresentacion;
+    JPanel panelhistorial;
     JButton back;
     public static Statement stmt;
 
     public Registro() {
+
+        panelhistorial = new JPanel();
+        JButton PRUEBA = new JButton("hola");
+        PRUEBA.setBounds(400, 50, 100, 50);
+        
         // ATRIBUTOS DE LA VENTANA
         historyWindow = new JFrame("Historial");
         historyWindow.setSize(600, 400);
@@ -47,6 +56,9 @@ public class Registro {
         titles[3] = "Retiros";
         model.addRow(titles);
         String[] dato = new String[4];
+
+        JScrollPane scroll = new JScrollPane(table);
+        historyWindow.add(scroll, BorderLayout.CENTER);
         try {
             stmt = ConexionMySQL.conexion.createStatement();
             String query = "SELECT * FROM transactions WHERE email='" + Login.u + "';";
@@ -80,9 +92,14 @@ public class Registro {
                 historyWindow.dispose();
             }
         });
-
-        historyWindow.add(table);
+        panelhistorial.add(PRUEBA);
+        historyWindow.add(panelhistorial, BorderLayout.NORTH);
         historyWindow.setVisible(true);
+
+    }
+
+    private void add(JPanel panelhistorial) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
