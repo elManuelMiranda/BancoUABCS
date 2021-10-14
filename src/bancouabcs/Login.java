@@ -167,7 +167,7 @@ public class Login {
                     u = correo.getText();
                     c = Hash.md5(contraseña.getText());
 
-                    String SQL = "SELECT correo ,contraseña FROM registro" + " WHERE correo='" + u + "'AND contraseña='"
+                    String SQL = "SELECT email ,password FROM users" + " WHERE email='" + u + "'AND password='"
                             + c + "'";
                     System.out.println(SQL);
 
@@ -186,13 +186,10 @@ public class Login {
                     } else {
                         JOptionPane.showMessageDialog(null, "USUARIO O CONTRASEÑA INCORRECTOS", "ACCESO DENEGADO",
                                 JOptionPane.ERROR_MESSAGE);
-
                     }
-
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "error base de datos");
                 }
-
             }
         });
 

@@ -202,8 +202,8 @@ public class Registrar extends JFrame {
                         try {
                             stat = ConexionMySQL.conexion.createStatement();
 
-                            String query = "INSERT INTO registro (nombre,primer_ap,segundo_ap,contraseña,correo) values('"
-                                    + nombre + "','" + apellido1 + "','" + apellido2 + "','" + contraseña1 + "','" + correo1 + "')";
+                            String query = "INSERT INTO users (first_name,last_name,sec_last_name,email,password) values('"
+                                    + nombre + "','" + apellido1 + "','" + apellido2 + "','" + correo1 + "','" + contraseña1 + "')";
                             System.out.println(query);
 
                             stat.executeUpdate(query);
