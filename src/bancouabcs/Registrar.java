@@ -7,6 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,7 +24,8 @@ public class Registrar extends JFrame {
     JPanel panelPresentacion;
     JLabel fondoPresentacion;
     JButton aceptar;
-    public static  Statement stat;
+    public static Statement stat;
+
     int cont = 0;
     JTextField usuario = new JTextField("");
     JTextField apellido = new JTextField("");
@@ -35,6 +38,15 @@ public class Registrar extends JFrame {
     JLabel regi3 = new JLabel();
     JLabel regi5 = new JLabel();
     JLabel regi6 = new JLabel();
+    
+public static boolean isValid(String email) { 
+        String emailREGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";                               
+        Pattern pattern = Pattern.compile(emailREGEX ); 
+        if (email == null){ 
+            return false; 
+        }
+        return pattern .matcher(email).matches(); 
+    }
 
     public void Validar() {
         if (usuario.getText().equals("")) {
@@ -61,8 +73,8 @@ public class Registrar extends JFrame {
         } else {
             regi5.setVisible(false);
         }
-        
-         if (cpassword.getText().equals("")  )  {
+
+        if (cpassword.getText().equals("")) {
             regi6.setVisible(true);
             cont++;
         } else {
@@ -84,7 +96,7 @@ public class Registrar extends JFrame {
         regi2.setVisible(false);
         regi3.setVisible(false);
         regi5.setVisible(false);
-         regi6.setVisible(false);
+        regi6.setVisible(false);
 
         // PANEL DE PRESENTACION
         panelPresentacion = new JPanel();
@@ -192,7 +204,7 @@ public class Registrar extends JFrame {
                 Validar();
                 System.out.println("contador=" + cont);
                 if (cont == 0) {
-                    if (usuario.getText() != null && apellido.getText() != null && contraseña.getText().equals(cpassword.getText()) ) {
+                    if (usuario.getText() != null && apellido.getText() != null && contraseña.getText().equals(cpassword.getText()) && isValid(correo.getText())) {
                         String nombre = usuario.getText();
                         String apellido1 = apellido.getText();
                         String apellido2 = segundoapellido.getText();
@@ -205,7 +217,6 @@ public class Registrar extends JFrame {
                             String query = "INSERT INTO users (first_name,last_name,sec_last_name,email,password) values('"
                                     + nombre + "','" + apellido1 + "','" + apellido2 + "','" + correo1 + "','" + contraseña1 + "')";
                             System.out.println(query);
-                            
 
                             stat.executeUpdate(query);
                         } catch (SQLException e1) {
