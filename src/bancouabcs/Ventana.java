@@ -300,7 +300,7 @@ public class Ventana extends JFrame {
                     String destinyAcc = cuentaDestino.getText();
                     String deposit = cantidad.getText();
                     String description = descripcion.getText();
-                    String senderAcc = cuentaDestino.getText();
+                    //String senderAcc = cuentaDestino.getText();
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                         String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
@@ -311,10 +311,10 @@ public class Ventana extends JFrame {
                                 + destinyAcc + ";";
                         System.out.println(query2);
                         stat.executeUpdate(query2);
-                        String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
+                        /*String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
                                 + senderAcc + ";";
                         System.out.println(query3);
-                        stat.executeUpdate(query3);
+                        stat.executeUpdate(query3);*/
                     } catch (SQLException e1) {
                     }
 
