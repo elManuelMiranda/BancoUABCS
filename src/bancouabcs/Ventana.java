@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 public class Ventana extends JFrame {
 
     JLabel fondoPresentacion;
-    JFrame newRouteWindow;
+    JFrame newAccountWindow;
     int cont = 0;
     int numregistros = 0;
     public static String coste;
@@ -50,7 +50,7 @@ public class Ventana extends JFrame {
         Image myIcon = tk.getImage("ico.png");
         setIconImage(myIcon);
 
-        // CERRAR NEW ROUTE WINDOW
+        // CERRAR INICIO WINDOW
         JButton closeNRWindow = new JButton();
         closeNRWindow.setFocusable(false);
         closeNRWindow.setBorder(null);
@@ -73,11 +73,11 @@ public class Ventana extends JFrame {
         closeNRWindow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                newRouteWindow.dispose();
+                newAccountWindow.dispose();
             }
         });
 
-        // BOTON ACEPTAR NUEVA RUTA
+        // BOTON CREAR NUEVA CUENTA
         JButton accept = new JButton("Crear cuenta");
         accept.setIcon(new ImageIcon("aceptar.png"));
         accept.setBounds(150, 260, 200, 100);
@@ -108,6 +108,17 @@ public class Ventana extends JFrame {
         fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
 
+        JPanel panelTransaccion = new JPanel();
+        panelTransaccion.setSize(this.getWidth(), this.getHeight());
+        panelTransaccion.setLocation(0, 0);
+        panelTransaccion.setLayout(null);
+        panelTransaccion.setVisible(true);
+        JLabel fondoTransaccion = new JLabel();
+        fondoTransaccion.setBounds(0, 0, 500, 400);
+        fondoTransaccion.setVisible(true);
+        fondoTransaccion.setIcon(new ImageIcon(("Depositar.jpg")));
+        panelTransaccion.add(fondoTransaccion, 0);
+
         JPanel agregarcuenta = new JPanel();
         agregarcuenta.setSize(this.getWidth(), this.getHeight());
         agregarcuenta.setLocation(0, 0);
@@ -119,7 +130,7 @@ public class Ventana extends JFrame {
         fondoagregarcuenta.setIcon(new ImageIcon(("interfaz2.jpg")));
         agregarcuenta.add(fondoagregarcuenta, 0);
 
-        // BOTON NUEVA RUTA
+        // BOTON NUEVA CUENTA
         JButton newRoute = new JButton("");
         newRoute.setFocusable(false);
         newRoute.setBorder(null);
@@ -139,16 +150,16 @@ public class Ventana extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                newRouteWindow = new JFrame();
-                newRouteWindow.setSize(500, 400);
-                newRouteWindow.setLocationRelativeTo(null);
-                newRouteWindow.setLayout(null);
-                newRouteWindow.setVisible(true);
-                newRouteWindow.add(accept);
-                newRouteWindow.add(closeNRWindow);
-                newRouteWindow.add(combo1);
-                newRouteWindow.add(monto);
-                newRouteWindow.add(fondoagregarcuenta);
+                newAccountWindow = new JFrame();
+                newAccountWindow.setSize(500, 400);
+                newAccountWindow.setLocationRelativeTo(null);
+                newAccountWindow.setLayout(null);
+                newAccountWindow.setVisible(true);
+                newAccountWindow.add(accept);
+                newAccountWindow.add(closeNRWindow);
+                newAccountWindow.add(combo1);
+                newAccountWindow.add(monto);
+                newAccountWindow.add(fondoagregarcuenta);
                 repaint();
                 validate();
             }
@@ -202,7 +213,7 @@ public class Ventana extends JFrame {
         add(history);
         repaint();
 
-        //BOTON TRNASACCION
+        //BOTON TRANSACCION
         JButton transaccion = new JButton("");
         transaccion.setFocusable(false);
         transaccion.setBorder(null);
@@ -210,15 +221,83 @@ public class Ventana extends JFrame {
         transaccion.setBackground(new Color(0, 0, 0, 0));
         transaccion.setIcon(new ImageIcon(("transaccion.png")));
         transaccion.setBounds(650, 350, 200, 100);
+
+        //TEXTFIELDS
+        JTextField cuentaDestino = new JTextField();
+        cuentaDestino.setBounds(150, 65, 200, 25);
+        JTextField cantidad = new JTextField();
+        cantidad.setBounds(150, 160, 200, 25);
+        JTextField descripcion = new JTextField();
+        descripcion.setBounds(150, 260, 200, 25);
+
+        // BOTON REALIZAR TRANSACCION
+        JButton realizarTX = new JButton("Crear cuenta");
+        realizarTX.setIcon(new ImageIcon("realizarTX.png"));
+        realizarTX.setBounds(150, 280, 200, 100);
+        realizarTX.setBorder(null);
+        realizarTX.setBackground(null);
+        realizarTX.setContentAreaFilled(false);
+        realizarTX.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                realizarTX.setIcon(new ImageIcon("realizarTX2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                realizarTX.setIcon(new ImageIcon("realizarTX.png"));
+            }
+        });
+        realizarTX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //REALIZAR TRANSACCION----------------------------------
+                if (cont1 == 0) {
+                    String destinyAcc = cuentaDestino.getText();
+                    String deposit = cantidad.getText();
+                    String description = descripcion.getText();;
+                    try {
+                        stat = ConexionMySQL.conexion.createStatement();
+                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
+                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "');";
+                        System.out.println(query);
+                        stat.executeUpdate(query);
+                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number=" + destinyAcc + ";";
+                        System.out.println(query2);
+                        stat.executeUpdate(query2);
+                    } catch (SQLException e1) {
+                    }
+
+                    repaint();
+                    validate();
+
+                } else {
+
+                }
+
+            }
+        });
         transaccion.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                setVisible(false);
-                Login login = new Login();
+            public void actionPerformed(ActionEvent e) {
+
+                newAccountWindow = new JFrame();
+                newAccountWindow.setSize(500, 400);
+                newAccountWindow.setLocationRelativeTo(null);
+                newAccountWindow.setLayout(null);
+                newAccountWindow.setVisible(true);
+                newAccountWindow.add(realizarTX);
+                newAccountWindow.add(closeNRWindow);
+                newAccountWindow.add(cuentaDestino);
+                newAccountWindow.add(cantidad);
+                newAccountWindow.add(descripcion);
+                newAccountWindow.add(fondoTransaccion);
+                repaint();
+                validate();
             }
         });
         add(transaccion);
-        // BOTON CERRAR SESISION
+        // BOTON CERRAR SESION
         JButton logOut = new JButton("");
         logOut.setFocusable(false);
         logOut.setBorder(null);
@@ -259,7 +338,7 @@ public class Ventana extends JFrame {
         } catch (SQLException e1) {
         }
 
-        //mostrar cuentas y numero
+        //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
             String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'";
@@ -283,7 +362,7 @@ public class Ventana extends JFrame {
 
         } catch (SQLException e1) {
         }
-//fondo
+        //fondo
         add(fondoPresentacion);
         repaint();
         validate();

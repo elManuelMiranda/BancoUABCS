@@ -15,7 +15,7 @@ public class ConexionMySQL {
 
     public static void ConectarBasedeDatos() {
         try {
-            final String Controlador = "org.gjt.mm.mysql.Driver";
+            final String Controlador = "com.mysql.cj.jdbc.Driver";
             Class.forName(Controlador);
             final String url_bd = "jdbc:mysql://localhost/bancouabcs_db?characterEncoding=utf8";
             conexion = DriverManager.getConnection(url_bd, "root", "");

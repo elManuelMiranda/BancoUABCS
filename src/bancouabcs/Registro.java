@@ -35,10 +35,10 @@ public class Registro {
         table = new JTable();
         table.setBounds(10, 10, 1, 1);
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Planeta de partida");
-        model.addColumn("Planeta de destino");
-        model.addColumn("Duracion del viaje");
-        model.addColumn("Fecha");
+        model.addColumn("Fechas");
+        model.addColumn("Descripcion");
+        model.addColumn("Depositos");
+        model.addColumn("Retiros");
         table.setModel(model);
         String[] titles = new String[4];
         titles[0] = "Fechas";
@@ -49,17 +49,17 @@ public class Registro {
         String[] dato = new String[4];
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT * FROM historial WHERE correo='" + Login.u + "'";
+            String query = "SELECT * FROM transactions WHERE email='" + Login.u + "';";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                dato[0] = rs.getString(3);
+                dato[0] = rs.getString(2);
                 dato[1] = rs.getString(4);
                 dato[2] = rs.getString(5);
                 dato[3] = rs.getString(6);
                 model.addRow(dato);
 
-                System.out.println(rs.getString(3) + " / " + rs.getString(4)
+                System.out.println(rs.getString(2) + " / " + rs.getString(4)
                         + " / " + rs.getString(5) + " / " + rs.getString(6));
             }
         } catch (SQLException e1) {
