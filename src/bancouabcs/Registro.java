@@ -54,12 +54,7 @@ public class Registro {
         model.addColumn("Depositos");
         model.addColumn("Retiros");
         table.setModel(model);
-        String[] titles = new String[4];
-        titles[0] = "Fechas";
-        titles[1] = "Descripcion";
-        titles[2] = "Depositos";
-        titles[3] = "Retiros";
-        model.addRow(titles);
+        table.getTableHeader().setReorderingAllowed(false);
         String[] dato = new String[4];
 
         JScrollPane scroll = new JScrollPane(table);

@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -275,6 +276,7 @@ public class Ventana extends JFrame {
 
                     repaint();
                     validate();
+                    newAccountWindow.dispose();
 
                 } else {
 
