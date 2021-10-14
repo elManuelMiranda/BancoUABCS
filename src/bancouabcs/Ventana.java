@@ -38,6 +38,7 @@ public class Ventana extends JFrame {
     public static int cont1 = 0;
     public static int cuenta;
     public static Statement stat;
+    public int nuevacuenta = 1;
 
     public Ventana() {
 
@@ -79,21 +80,21 @@ public class Ventana extends JFrame {
         });
 
         // BOTON CREAR NUEVA CUENTA
-        JButton accept = new JButton("Crear cuenta");
-        accept.setIcon(new ImageIcon("aceptar.png"));
-        accept.setBounds(150, 260, 200, 100);
-        accept.setBorder(null);
-        accept.setBackground(null);
-        accept.setContentAreaFilled(false);
-        accept.addMouseListener(new MouseAdapter() {
+        JButton acceptNewAcc = new JButton("Crear cuenta");
+        acceptNewAcc.setIcon(new ImageIcon("aceptar.png"));
+        acceptNewAcc.setBounds(150, 260, 200, 100);
+        acceptNewAcc.setBorder(null);
+        acceptNewAcc.setBackground(null);
+        acceptNewAcc.setContentAreaFilled(false);
+        acceptNewAcc.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                accept.setIcon(new ImageIcon("aceptar2.png"));
+                acceptNewAcc.setIcon(new ImageIcon("aceptar2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                accept.setIcon(new ImageIcon("aceptar.png"));
+                acceptNewAcc.setIcon(new ImageIcon("aceptar.png"));
             }
         });
 
@@ -131,14 +132,14 @@ public class Ventana extends JFrame {
         fondoagregarcuenta.setIcon(new ImageIcon(("interfaz2.jpg")));
         agregarcuenta.add(fondoagregarcuenta, 0);
 
-        // BOTON NUEVA CUENTA
-        JButton newRoute = new JButton("");
-        newRoute.setFocusable(false);
-        newRoute.setBorder(null);
-        newRoute.setOpaque(false);
-        newRoute.setBackground(new Color(0, 0, 0, 0));
-        newRoute.setIcon(new ImageIcon(("agregaru.png")));
-        newRoute.setBounds(750, 80, 200, 100);
+        // BOTON AGREGAR NUEVA CUENTA
+        JButton newAccount = new JButton("");
+        newAccount.setFocusable(false);
+        newAccount.setBorder(null);
+        newAccount.setOpaque(false);
+        newAccount.setBackground(new Color(0, 0, 0, 0));
+        newAccount.setIcon(new ImageIcon(("agregaru.png")));
+        newAccount.setBounds(750, 80, 200, 100);
 
         combo1 = new JComboBox<String>();
         combo1.setBounds(150, 120, 200, 50);
@@ -147,7 +148,7 @@ public class Ventana extends JFrame {
         JTextField monto = new JTextField();
         monto.setBounds(150, 220, 200, 50);
 
-        newRoute.addActionListener(new ActionListener() {
+        newAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -156,7 +157,7 @@ public class Ventana extends JFrame {
                 newAccountWindow.setLocationRelativeTo(null);
                 newAccountWindow.setLayout(null);
                 newAccountWindow.setVisible(true);
-                newAccountWindow.add(accept);
+                newAccountWindow.add(acceptNewAcc);
                 newAccountWindow.add(closeNRWindow);
                 newAccountWindow.add(combo1);
                 newAccountWindow.add(monto);
@@ -165,7 +166,7 @@ public class Ventana extends JFrame {
                 validate();
             }
         });
-        accept.addActionListener(new ActionListener() {
+        acceptNewAcc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int r = (int) (Math.random() * 8999 + 1000);
@@ -190,11 +191,53 @@ public class Ventana extends JFrame {
                 } else {
 
                 }
+                //ACTUALZIAR VENTANA
+                dispose();
+                Ventana mapa = new Ventana();
+                newAccountWindow.dispose();
 
             }
         });
+        add(newAccount);
+        
+        //MOSTRAR CUENTAS
+        try {
+            stmt = ConexionMySQL.conexion.createStatement();
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'";
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
 
-        add(newRoute);
+            String[] dato = new String[3];
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+                nuevacuenta = nuevacuenta + 5;
+
+                JLabel usuariocuenta = new JLabel();
+                JLabel saldocuenta = new JLabel();
+                JLabel tipodecuenta = new JLabel();
+                usuariocuenta.setText("Num de cuenta: " + rs.getString(1));
+                saldocuenta.setText("saldo de cuenta: " + rs.getString(2));
+                tipodecuenta.setText("Tipo de ceunta: " + rs.getString(3));
+                usuariocuenta.setBounds(35 * nuevacuenta, 150, 400, 200);
+                saldocuenta.setBounds(35 * nuevacuenta, 180, 400, 200);
+                tipodecuenta.setBounds(35 * nuevacuenta, 200, 400, 200);
+                usuariocuenta.setFont(new Font("Candra", 0, 20));
+                usuariocuenta.setForeground(new Color(215, 173, 71));
+                saldocuenta.setForeground(new Color(215, 173, 71));
+                tipodecuenta.setForeground(new Color(215, 173, 71));
+
+                add(usuariocuenta);
+                add(saldocuenta);
+                add(tipodecuenta);
+                nuevacuenta++;
+            }
+
+        } catch (SQLException e1) {
+        }
+        
         // BOTON HISTORIAL
         JButton history = new JButton("");
         history.setFocusable(false);
@@ -256,7 +299,8 @@ public class Ventana extends JFrame {
                 if (cont1 == 0) {
                     String destinyAcc = cuentaDestino.getText();
                     String deposit = cantidad.getText();
-                    String description = descripcion.getText();;
+                    String description = descripcion.getText();
+                    String senderAcc = cuentaDestino.getText();
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                         String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
@@ -268,7 +312,7 @@ public class Ventana extends JFrame {
                         System.out.println(query2);
                         stat.executeUpdate(query2);
                         String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
-                                + destinyAcc + ";";
+                                + senderAcc + ";";
                         System.out.println(query3);
                         stat.executeUpdate(query3);
                     } catch (SQLException e1) {
@@ -281,7 +325,10 @@ public class Ventana extends JFrame {
                 } else {
 
                 }
-
+                //ACTUALZIAR VENTANA
+                dispose();
+                Ventana mapa = new Ventana();
+                newAccountWindow.dispose();
             }
         });
         transaccion.addActionListener(new ActionListener() {
@@ -345,7 +392,7 @@ public class Ventana extends JFrame {
         } catch (SQLException e1) {
         }
 
-        //MOSTRAR CUENTAS
+        /*//MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
             String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'";
@@ -368,7 +415,7 @@ public class Ventana extends JFrame {
             }
 
         } catch (SQLException e1) {
-        }
+        }*/
         //fondo
         add(fondoPresentacion);
         repaint();
