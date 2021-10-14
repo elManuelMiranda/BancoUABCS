@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -33,6 +34,9 @@ public class Ventana extends JFrame {
     public static Statement stmt;
     private JComboBox<String> combo1;
     ResultSet rs;
+    public static int cont1 = 0;
+    public static int cuenta;
+    public static Statement stat;
 
     public Ventana() {
 
@@ -46,8 +50,6 @@ public class Ventana extends JFrame {
         Image myIcon = tk.getImage("ico.png");
         setIconImage(myIcon);
 
- 
-  
         // CERRAR NEW ROUTE WINDOW
         JButton closeNRWindow = new JButton();
         closeNRWindow.setFocusable(false);
@@ -151,6 +153,35 @@ public class Ventana extends JFrame {
                 validate();
             }
         });
+        accept.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int r = (int) (Math.random() * 8999 + 1000);
+                cuenta = r;
+                System.out.println("" + combo1.getSelectedItem().toString() + " " + monto.getText() + " " + r);
+                //SUBIR CUENTA----------------------------------
+                if (cont1 == 0) {
+                    String balance = monto.getText();
+                    String type = combo1.getSelectedItem().toString();
+                    try {
+                        stat = ConexionMySQL.conexion.createStatement();
+                        String query = "INSERT INTO account (account_number,balance,type,email) values('"
+                                + cuenta + "','" + balance + "','" + type + "','" + Login.u + "')";
+                        System.out.println(query);
+                        stat.executeUpdate(query);
+                    } catch (SQLException e1) {
+                    }
+
+                    repaint();
+                    validate();
+
+                } else {
+
+                }
+
+            }
+        });
+
         add(newRoute);
         // BOTON HISTORIAL
         JButton history = new JButton("");
@@ -203,29 +234,53 @@ public class Ventana extends JFrame {
             }
         });
         add(logOut);
-            //MOSTRAR USUARIO LOGEADO
- try {
+        //MOSTRAR USUARIO LOGEADO
+        try {
             stmt = ConexionMySQL.conexion.createStatement();
             String query = "SELECT first_name,last_name,sec_last_name FROM users WHERE email='" + Login.u + "'";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
-           
-               
+
             String[] dato = new String[3];
 
             while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3); 
-            
-                  JLabel usuarioname = new JLabel();
-                  usuarioname.setText("Bienvenido: "+rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3));
-            usuarioname.setBounds(20, 5, 500, 100);
-            usuarioname.setFont(new Font("Candra", 0, 20));
-          usuarioname.setForeground (new Color(215,173,71));
-             add(usuarioname);
+                dato[2] = rs.getString(3);
+
+                JLabel usuarioname = new JLabel();
+                usuarioname.setText("Bienvenido: " + rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+                usuarioname.setBounds(20, 5, 500, 100);
+                usuarioname.setFont(new Font("Candra", 0, 20));
+                usuarioname.setForeground(new Color(215, 173, 71));
+                add(usuarioname);
             }
-          
+
+        } catch (SQLException e1) {
+        }
+
+        //mostrar cuentas y numero
+        try {
+            stmt = ConexionMySQL.conexion.createStatement();
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'";
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            String[] dato = new String[3];
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+
+                JLabel usuariocuenta = new JLabel();
+                usuariocuenta.setText("Num de cuenta: " + rs.getString(1) + "Saldo: " + rs.getString(2) + "Tipo de cuenta: " + rs.getString(3));
+                usuariocuenta.setBounds(20, 150, 500, 100);
+                usuariocuenta.setFont(new Font("Candra", 0, 20));
+                usuariocuenta.setForeground(new Color(215, 173, 71));
+                add(usuariocuenta);
+            }
+
         } catch (SQLException e1) {
         }
 //fondo

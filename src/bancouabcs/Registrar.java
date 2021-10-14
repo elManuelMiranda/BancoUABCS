@@ -22,7 +22,7 @@ public class Registrar extends JFrame {
     JPanel panelPresentacion;
     JLabel fondoPresentacion;
     JButton aceptar;
-    public static Statement stat;
+    public static  Statement stat;
     int cont = 0;
     JTextField usuario = new JTextField("");
     JTextField apellido = new JTextField("");
@@ -205,6 +205,7 @@ public class Registrar extends JFrame {
                             String query = "INSERT INTO users (first_name,last_name,sec_last_name,email,password) values('"
                                     + nombre + "','" + apellido1 + "','" + apellido2 + "','" + correo1 + "','" + contraseña1 + "')";
                             System.out.println(query);
+                            
 
                             stat.executeUpdate(query);
                         } catch (SQLException e1) {

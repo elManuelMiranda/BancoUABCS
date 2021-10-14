@@ -29,5 +29,4 @@ public class Hash {
     public static String sha1(String txt) {
         return Hash.getHash(txt, "SHA1");
     }
-
 }
