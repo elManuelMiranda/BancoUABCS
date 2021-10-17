@@ -44,12 +44,49 @@ public class Registro {
         JButton PRUEBA = new JButton("hola");
         PRUEBA.setBounds(400, 50, 100, 50);
         
+          JButton closeNRWindow = new JButton();
+        closeNRWindow.setFocusable(false);
+        closeNRWindow.setBorder(null);
+        closeNRWindow.setOpaque(false);
+        closeNRWindow.setContentAreaFilled(false);
+        closeNRWindow.setBackground(new Color(0, 0, 0, 0));
+        closeNRWindow.setIcon(new ImageIcon(("cerrar.png")));
+        closeNRWindow.setBounds(420, 5, 50, 50);
+        closeNRWindow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                closeNRWindow.setIcon(new ImageIcon("cerrar2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                closeNRWindow.setIcon(new ImageIcon("cerrar.png"));
+            }
+        });
+        closeNRWindow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                newAccountWindow.dispose();
+            }
+        });
+        
+        JPanel panelTransaccion = new JPanel();
+        panelTransaccion.setSize(500, 400);
+        panelTransaccion.setLocation(0, 0);
+        panelTransaccion.setLayout(null);
+        panelTransaccion.setVisible(true);
+        JLabel fondoTransaccion = new JLabel();
+        fondoTransaccion.setBounds(0, 0, 500, 400);
+        fondoTransaccion.setVisible(true);
+        fondoTransaccion.setIcon(new ImageIcon(("Depositar.jpg")));
+        panelTransaccion.add(fondoTransaccion, 0);
+        
         // ATRIBUTOS DE LA VENTANA
         historyWindow = new JFrame("Historial");
         historyWindow.setSize(600, 400);
         historyWindow.setLocationRelativeTo(null);
         historyWindow.setUndecorated(false);
-
+        
         // TABLA CON HISTORIAL DEL USUARIO
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -102,11 +139,103 @@ public class Registro {
                 historyWindow.dispose();
             }
         });
+        
+
+            JButton transaccion = new JButton("");
+        transaccion.setFocusable(false);
+        transaccion.setBorder(null);
+        transaccion.setOpaque(false);
+        transaccion.setBackground(new Color(0, 0, 0, 0));
+        transaccion.setIcon(new ImageIcon(("transaccion.png")));
+        transaccion.setBounds(0, 0, 200, 100);
+          JTextField cuentaDestino = new JTextField();
+        cuentaDestino.setBounds(150, 65, 200, 25);
+        JTextField cantidad = new JTextField();
+        cantidad.setBounds(150, 160, 200, 25);
+        JTextField descripcion = new JTextField();
+        descripcion.setBounds(150, 260, 200, 25);
+           // BOTON REALIZAR TRANSACCION
+        JButton realizarTX = new JButton("Crear cuenta");
+        realizarTX.setIcon(new ImageIcon("realizarTX.png"));
+        realizarTX.setBounds(150, 280, 200, 100);
+        realizarTX.setBorder(null);
+        realizarTX.setBackground(null);
+        realizarTX.setContentAreaFilled(false);
+        realizarTX.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                realizarTX.setIcon(new ImageIcon("realizarTX2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                realizarTX.setIcon(new ImageIcon("realizarTX.png"));
+            }
+        });
+        realizarTX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                //REALIZAR TRANSACCION----------------------------------
+                if (cont1 == 0) {
+                    String destinyAcc = cuentaDestino.getText();
+                    String deposit = cantidad.getText();
+                    String description = descripcion.getText();
+                    //String senderAcc = cuentaDestino.getText();
+                    try {
+                        stat = ConexionMySQL.conexion.createStatement();
+                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
+                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "');";
+                        System.out.println(query);
+                        stat.executeUpdate(query);
+                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number=" 
+                                + destinyAcc + ";";
+                        System.out.println(query2);
+                        stat.executeUpdate(query2);
+                        /*String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
+                                + senderAcc + ";";
+                        System.out.println(query3);
+                        stat.executeUpdate(query3);*/
+                    } catch (SQLException e1) {
+                    }
+
+                   
+                    newAccountWindow.dispose();
+
+                } else {
+
+                }
+                //ACTUALZIAR VENTANA
+                
+                Ventana mapa = new Ventana();
+                newAccountWindow.dispose();
+            }
+        });
+        transaccion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                newAccountWindow = new JFrame();
+                newAccountWindow.setSize(500, 400);
+                newAccountWindow.setLocationRelativeTo(null);
+                newAccountWindow.setLayout(null);
+                newAccountWindow.setVisible(true);
+                newAccountWindow.add(realizarTX);
+                newAccountWindow.add(closeNRWindow);
+                newAccountWindow.add(cuentaDestino);
+                newAccountWindow.add(cantidad);
+                newAccountWindow.add(descripcion);
+                newAccountWindow.add(fondoTransaccion);
+               
+            }
+        });
         panelhistorial.add(PRUEBA);
         historyWindow.add(panelhistorial, BorderLayout.NORTH);
         historyWindow.setVisible(true);
-
+        panelhistorial.add(transaccion);
     }
+    
+    
 
     private void add(JPanel panelhistorial) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -109,7 +109,7 @@ public class Ventana extends JFrame {
         fondoPresentacion.setVisible(true);
         fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
-//INTERFAZ REALIZAR 
+/**INTERFAZ REALIZAR 
         JPanel panelTransaccion = new JPanel();
         panelTransaccion.setSize(this.getWidth(), this.getHeight());
         panelTransaccion.setLocation(0, 0);
@@ -119,7 +119,7 @@ public class Ventana extends JFrame {
         fondoTransaccion.setBounds(0, 0, 500, 400);
         fondoTransaccion.setVisible(true);
         fondoTransaccion.setIcon(new ImageIcon(("Depositar.jpg")));
-        panelTransaccion.add(fondoTransaccion, 0);
+        panelTransaccion.add(fondoTransaccion, 0);*/
 //INTERFAZ AGREGAR CUENTA
         JPanel agregarcuenta = new JPanel();
         agregarcuenta.setSize(this.getWidth(), this.getHeight());
@@ -257,6 +257,9 @@ public class Ventana extends JFrame {
         add(history);
         repaint();
 
+        //DEPOSITAR A REGISTRO :D
+        
+/**
         //BOTON TRANSACCION
         JButton transaccion = new JButton("");
         transaccion.setFocusable(false);
@@ -265,7 +268,6 @@ public class Ventana extends JFrame {
         transaccion.setBackground(new Color(0, 0, 0, 0));
         transaccion.setIcon(new ImageIcon(("transaccion.png")));
         transaccion.setBounds(650, 350, 200, 100);
-
         //TEXTFIELDS
         JTextField cuentaDestino = new JTextField();
         cuentaDestino.setBounds(150, 65, 200, 25);
@@ -314,7 +316,7 @@ public class Ventana extends JFrame {
                         /*String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
                                 + senderAcc + ";";
                         System.out.println(query3);
-                        stat.executeUpdate(query3);*/
+                        stat.executeUpdate(query3);
                     } catch (SQLException e1) {
                     }
 
@@ -351,6 +353,8 @@ public class Ventana extends JFrame {
             }
         });
         add(transaccion);
+         /*/
+
         // BOTON CERRAR SESION
         JButton logOut = new JButton("");
         logOut.setFocusable(false);
