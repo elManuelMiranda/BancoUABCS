@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 public class Registrar extends JFrame {
 
     JFrame registrarWindow;
+    
     JPanel panelPresentacion;
     JLabel fondoPresentacion;
     JButton aceptar;
@@ -38,6 +39,8 @@ public class Registrar extends JFrame {
     JLabel regi3 = new JLabel();
     JLabel regi5 = new JLabel();
     JLabel regi6 = new JLabel();
+    
+    
     
 public static boolean isValid(String email) { 
         String emailREGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";                               
@@ -90,6 +93,7 @@ public static boolean isValid(String email) {
         registrarWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         registrarWindow.setUndecorated(true);
         registrarWindow.setLayout(null);
+    
 
         //OCULTAR AVISO
         regi1.setVisible(false);
@@ -227,7 +231,7 @@ public static boolean isValid(String email) {
                         JOptionPane.showMessageDialog(null, "Registro completado");
                         registrarWindow.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Las contraseñas no son iguales");
+                        JOptionPane.showMessageDialog(null, "Datos erróneos. Por favor, inténtelo otra vez.");
                     }
                 }
             }

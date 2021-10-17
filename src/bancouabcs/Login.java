@@ -184,7 +184,7 @@ public class Login {
                         JOptionPane.showMessageDialog(null, "BIENVENIDO", "ACCESO CONCEDIDO",
                                 JOptionPane.DEFAULT_OPTION);
                     } else {
-                        JOptionPane.showMessageDialog(null, "USUARIO O CONTRASEÑA INCORRECTOS", "ACCESO DENEGADO",
+                        JOptionPane.showMessageDialog(null, "Datos erróneos. Por favor, inténtelo otra vez.", "ACCESO DENEGADO",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {

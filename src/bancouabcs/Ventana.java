@@ -98,7 +98,7 @@ public class Ventana extends JFrame {
             }
         });
 
-        // INTERFAZ PRINCIPAL
+        // FONDOS
         JPanel panelPresentacion = new JPanel();
         panelPresentacion.setSize(this.getWidth(), this.getHeight());
         panelPresentacion.setLocation(0, 0);
@@ -109,7 +109,7 @@ public class Ventana extends JFrame {
         fondoPresentacion.setVisible(true);
         fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
-//INTERFAZ REALIZAR TRANZACCION
+//INTERFAZ REALIZAR 
         JPanel panelTransaccion = new JPanel();
         panelTransaccion.setSize(this.getWidth(), this.getHeight());
         panelTransaccion.setLocation(0, 0);
@@ -131,7 +131,8 @@ public class Ventana extends JFrame {
         fondoagregarcuenta.setVisible(true);
         fondoagregarcuenta.setIcon(new ImageIcon(("interfaz2.jpg")));
         agregarcuenta.add(fondoagregarcuenta, 0);
- // BOTON AGREGAR NUEVA CUENTA
+
+        // BOTON AGREGAR NUEVA CUENTA
         JButton newAccount = new JButton("");
         newAccount.setFocusable(false);
         newAccount.setBorder(null);
@@ -300,7 +301,6 @@ public class Ventana extends JFrame {
                     String deposit = cantidad.getText();
                     String description = descripcion.getText();
                     //String senderAcc = cuentaDestino.getText();
-                   
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                         String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
