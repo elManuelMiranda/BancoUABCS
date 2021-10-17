@@ -109,18 +109,7 @@ public class Ventana extends JFrame {
         fondoPresentacion.setVisible(true);
         fondoPresentacion.setIcon(new ImageIcon(("interfaz.jpg")));
         panelPresentacion.add(fondoPresentacion, 0);
-/**INTERFAZ REALIZAR 
-        JPanel panelTransaccion = new JPanel();
-        panelTransaccion.setSize(this.getWidth(), this.getHeight());
-        panelTransaccion.setLocation(0, 0);
-        panelTransaccion.setLayout(null);
-        panelTransaccion.setVisible(true);
-        JLabel fondoTransaccion = new JLabel();
-        fondoTransaccion.setBounds(0, 0, 500, 400);
-        fondoTransaccion.setVisible(true);
-        fondoTransaccion.setIcon(new ImageIcon(("Depositar.jpg")));
-        panelTransaccion.add(fondoTransaccion, 0);*/
-//INTERFAZ AGREGAR CUENTA
+
         JPanel agregarcuenta = new JPanel();
         agregarcuenta.setSize(this.getWidth(), this.getHeight());
         agregarcuenta.setLocation(0, 0);
@@ -257,103 +246,6 @@ public class Ventana extends JFrame {
         add(history);
         repaint();
 
-        //DEPOSITAR A REGISTRO :D
-        
-/**
-        //BOTON TRANSACCION
-        JButton transaccion = new JButton("");
-        transaccion.setFocusable(false);
-        transaccion.setBorder(null);
-        transaccion.setOpaque(false);
-        transaccion.setBackground(new Color(0, 0, 0, 0));
-        transaccion.setIcon(new ImageIcon(("transaccion.png")));
-        transaccion.setBounds(650, 350, 200, 100);
-        //TEXTFIELDS
-        JTextField cuentaDestino = new JTextField();
-        cuentaDestino.setBounds(150, 65, 200, 25);
-        JTextField cantidad = new JTextField();
-        cantidad.setBounds(150, 160, 200, 25);
-        JTextField descripcion = new JTextField();
-        descripcion.setBounds(150, 260, 200, 25);
-
-        // BOTON REALIZAR TRANSACCION
-        JButton realizarTX = new JButton("Crear cuenta");
-        realizarTX.setIcon(new ImageIcon("realizarTX.png"));
-        realizarTX.setBounds(150, 280, 200, 100);
-        realizarTX.setBorder(null);
-        realizarTX.setBackground(null);
-        realizarTX.setContentAreaFilled(false);
-        realizarTX.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                realizarTX.setIcon(new ImageIcon("realizarTX2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                realizarTX.setIcon(new ImageIcon("realizarTX.png"));
-            }
-        });
-        realizarTX.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //REALIZAR TRANSACCION----------------------------------
-                if (cont1 == 0) {
-                    String destinyAcc = cuentaDestino.getText();
-                    String deposit = cantidad.getText();
-                    String description = descripcion.getText();
-                    //String senderAcc = cuentaDestino.getText();
-                    try {
-                        stat = ConexionMySQL.conexion.createStatement();
-                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
-                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "');";
-                        System.out.println(query);
-                        stat.executeUpdate(query);
-                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number=" 
-                                + destinyAcc + ";";
-                        System.out.println(query2);
-                        stat.executeUpdate(query2);
-                        /*String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
-                                + senderAcc + ";";
-                        System.out.println(query3);
-                        stat.executeUpdate(query3);
-                    } catch (SQLException e1) {
-                    }
-
-                    repaint();
-                    validate();
-                    newAccountWindow.dispose();
-
-                } else {
-
-                }
-                //ACTUALZIAR VENTANA
-                dispose();
-                Ventana mapa = new Ventana();
-                newAccountWindow.dispose();
-            }
-        });
-        transaccion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                newAccountWindow = new JFrame();
-                newAccountWindow.setSize(500, 400);
-                newAccountWindow.setLocationRelativeTo(null);
-                newAccountWindow.setLayout(null);
-                newAccountWindow.setVisible(true);
-                newAccountWindow.add(realizarTX);
-                newAccountWindow.add(closeNRWindow);
-                newAccountWindow.add(cuentaDestino);
-                newAccountWindow.add(cantidad);
-                newAccountWindow.add(descripcion);
-                newAccountWindow.add(fondoTransaccion);
-                repaint();
-                validate();
-            }
-        });
-        add(transaccion);
-         /*/
 
         // BOTON CERRAR SESION
         JButton logOut = new JButton("");
@@ -396,31 +288,6 @@ public class Ventana extends JFrame {
         } catch (SQLException e1) {
         }
 
-        /*//MOSTRAR CUENTAS
-        try {
-            stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'";
-            System.out.println(query);
-            ResultSet rs = stmt.executeQuery(query);
-
-            String[] dato = new String[3];
-
-            while (rs.next()) {
-                dato[0] = rs.getString(1);
-                dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3);
-
-                JLabel usuariocuenta = new JLabel();
-                usuariocuenta.setText("Num de cuenta: " + rs.getString(1) + "Saldo: " + rs.getString(2) + "Tipo de cuenta: " + rs.getString(3));
-                usuariocuenta.setBounds(20, 150, 500, 100);
-                usuariocuenta.setFont(new Font("Candra", 0, 20));
-                usuariocuenta.setForeground(new Color(215, 173, 71));
-                add(usuariocuenta);
-            }
-
-        } catch (SQLException e1) {
-        }*/
-        //fondo
         add(fondoPresentacion);
         repaint();
         validate();
