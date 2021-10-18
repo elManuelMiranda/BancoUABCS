@@ -147,7 +147,7 @@ public class Ventana extends JFrame {
         seleccionarcuenta.setBorder(null);
         seleccionarcuenta.setOpaque(false);
         seleccionarcuenta.setBackground(new Color(0, 0, 0, 0));
-        seleccionarcuenta.setIcon(new ImageIcon(("agregaru.png")));
+        seleccionarcuenta.setIcon(new ImageIcon(("seleccionar.png")));
         seleccionarcuenta.setBounds(150, 170, 200, 100);
 
         JTextField digitelacuenta = new JTextField();
@@ -184,7 +184,7 @@ public class Ventana extends JFrame {
                 newAccountWindow.add(seleccionarcuenta);
                 newAccountWindow.add(digitelacuenta);
                 newAccountWindow.add(fotoseleccionarcuenta);
-                dato=digitelacuenta.getText();
+                
                 repaint();
                 validate();
 
@@ -196,7 +196,7 @@ public class Ventana extends JFrame {
         seleccionarcuenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             
+                dato=digitelacuenta.getText();
                 
                  Registro historial = new Registro();
                 newAccountWindow.dispose();
