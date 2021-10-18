@@ -237,8 +237,9 @@ public class Registro {
                     //String senderAcc = cuentaDestino.getText();
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
+                       
                         String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
-                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "');";
+                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u +"');";
                         System.out.println(query);
                         stat.executeUpdate(query);
                         String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number="
