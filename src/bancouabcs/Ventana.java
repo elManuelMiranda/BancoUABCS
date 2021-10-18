@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,11 +28,13 @@ public class Ventana extends JFrame {
 
     JLabel fondoPresentacion;
     JFrame newAccountWindow;
+  
     public static String h;
     int cont = 0;
     int numregistros = 0;
     public static String coste;
     public static String[] registros = new String[10];
+       public static String dato;
     public static Statement stmt;
     private JComboBox<String> combo1;
     ResultSet rs;
@@ -39,8 +42,8 @@ public class Ventana extends JFrame {
     public static int cuenta;
     public static Statement stat;
     public int nuevacuenta = 1;
-  public int espacio=200;
-
+    public int espacio = 200;
+ 
     public Ventana() {
 
         setTitle("Banco");
@@ -137,98 +140,68 @@ public class Ventana extends JFrame {
         combo1.addItem("Cuenta Premium");
         JTextField monto = new JTextField();
         monto.setBounds(150, 220, 200, 50);
+
+        //VENTANA VER CUENTAS
+        JButton seleccionarcuenta = new JButton("");
+        seleccionarcuenta.setFocusable(false);
+        seleccionarcuenta.setBorder(null);
+        seleccionarcuenta.setOpaque(false);
+        seleccionarcuenta.setBackground(new Color(0, 0, 0, 0));
+        seleccionarcuenta.setIcon(new ImageIcon(("agregaru.png")));
+        seleccionarcuenta.setBounds(150, 170, 200, 100);
+
+        JTextField digitelacuenta = new JTextField();
+        digitelacuenta.setBounds(150, 120, 200, 50);
+
+        JPanel panelseleccionarcuenta = new JPanel();
+        panelseleccionarcuenta.setSize(this.getWidth(), this.getHeight());
+        panelseleccionarcuenta.setLocation(0, 0);
+        panelseleccionarcuenta.setLayout(null);
+        panelseleccionarcuenta.setVisible(true);
+        JLabel fotoseleccionarcuenta = new JLabel();
+        fotoseleccionarcuenta.setBounds(0, 0, 500, 400);
+        fotoseleccionarcuenta.setVisible(true);
+        fotoseleccionarcuenta.setIcon(new ImageIcon(("seleccion.jpg")));
+         panelseleccionarcuenta.add(fotoseleccionarcuenta, 0);
         
-          //VENTANA HISTORIAL OCULTA
-                JButton history = new JButton("1");
-                history.setFocusable(false);
-                history.setBorder(null);
-                history.setVisible(false);
-                history.setOpaque(false);
-                history.setBackground(new Color(0, 0, 0, 0));
-                history.setIcon(new ImageIcon(("historial.png")));
-                history.setBounds(20, 300, 200, 100);
-                history.addActionListener(new ActionListener() {
-                    @SuppressWarnings("static-access")
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                            h = history.getText();
-                        Registro historial = new Registro();
-                    }
-                });
-                add(history);
-                //VENTANA HISTORIAL 2 OCULTA
-                JButton history2 = new JButton("2");
+        JButton history = new JButton("");
+        history.setFocusable(false);
+        history.setBorder(null);
+        history.setVisible(false);
+        history.setOpaque(false);
+        history.setBackground(new Color(0, 0, 0, 0));
+        history.setIcon(new ImageIcon(("historial.png")));
+        history.setBounds(20, 300, 200, 100);
+        history.addActionListener(new ActionListener() {
+            @SuppressWarnings("static-access")
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newAccountWindow = new JFrame();
+                newAccountWindow.setSize(500, 400);
+                newAccountWindow.setLocationRelativeTo(null);
+                newAccountWindow.setLayout(null);
+                newAccountWindow.setVisible(true);
+                newAccountWindow.add(seleccionarcuenta);
+                newAccountWindow.add(digitelacuenta);
+                newAccountWindow.add(fotoseleccionarcuenta);
+                dato=digitelacuenta.getText();
+                repaint();
+                validate();
+
+                
+            }
+        });
+        add(history);
+        
+        seleccionarcuenta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
              
-                history2.setFocusable(false);
-                history2.setBorder(null);
-                history2.setVisible(false);
-                history2.setOpaque(false);
-                history2.setBackground(new Color(0, 0, 0, 0));
-                history2.setIcon(new ImageIcon(("historial.png")));
-                history2.setBounds(220, 300, 200, 100);
-                history2.addActionListener(new ActionListener() {
-                    @SuppressWarnings("static-access")
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                           h = history2.getText();
-                        Registro historial = new Registro();
-                    }
-                });
-                add(history2);
-                 //VENTANA HISTORIAL 3 OCULTA
-                JButton history3 = new JButton("3");
-                history3.setFocusable(false);
-                history3.setBorder(null);
-                history3.setVisible(false);
-                history3.setOpaque(false);
-                history3.setBackground(new Color(0, 0, 0, 0));
-                history3.setIcon(new ImageIcon(("historial.png")));
-                history3.setBounds(420, 300, 200, 100);
-                history3.addActionListener(new ActionListener() {
-                    @SuppressWarnings("static-access")
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                           h = history3.getText();
-                        Registro historial = new Registro();
-                    }
-                });
-                add(history3);
-                 //VENTANA HISTORIAL 3 OCULTA
-                JButton history4 = new JButton("4");
-                history4.setFocusable(false);
-                history4.setBorder(null);
-                history4.setVisible(false);
-                history4.setOpaque(false);
-                history4.setBackground(new Color(0, 0, 0, 0));
-                history4.setIcon(new ImageIcon(("historial.png")));
-                history4.setBounds(620, 300, 200, 100);
-                history4.addActionListener(new ActionListener() {
-                    @SuppressWarnings("static-access")
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                           h = history4.getText();
-                        Registro historial = new Registro();
-                    }
-                });
-                add(history4);
-                 //VENTANA HISTORIAL 3 OCULTA
-                JButton history5 = new JButton("5");
-                history5.setFocusable(false);
-                history5.setBorder(null);
-                history5.setVisible(false);
-                history5.setOpaque(false);
-                history5.setBackground(new Color(0, 0, 0, 0));
-                history5.setIcon(new ImageIcon(("historial.png")));
-                history5.setBounds(820, 300, 200, 100);
-                history5.addActionListener(new ActionListener() {
-                    @SuppressWarnings("static-access")
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                           h = history3.getText();
-                        Registro historial = new Registro();
-                    }
-                });
-                add(history5);
+                
+                 Registro historial = new Registro();
+                newAccountWindow.dispose();
+                }
+            });
 
         newAccount.addActionListener(new ActionListener() {
             @Override
@@ -246,8 +219,12 @@ public class Ventana extends JFrame {
                 newAccountWindow.add(fondoagregarcuenta);
                 repaint();
                 validate();
+               
             }
         });
+        
+        
+        
         acceptNewAcc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -258,8 +235,8 @@ public class Ventana extends JFrame {
                 if (cont1 == 0) {
                     String balance = monto.getText();
                     String type = combo1.getSelectedItem().toString();
-                      nuevacuenta++;
-                       System.out.println(nuevacuenta);
+                    nuevacuenta++;
+                    System.out.println(nuevacuenta);
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                         String query = "INSERT INTO account (account_number,balance,type,email) values('"
@@ -268,7 +245,7 @@ public class Ventana extends JFrame {
                         stat.executeUpdate(query);
                     } catch (SQLException e1) {
                     }
-                          
+
                     repaint();
                     validate();
 
@@ -279,11 +256,11 @@ public class Ventana extends JFrame {
                 dispose();
                 Ventana mapa = new Ventana();
                 newAccountWindow.dispose();
-              
+
             }
         });
         add(newAccount);
-        int contCuentas=0;
+        int contCuentas = 0;
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -294,11 +271,9 @@ public class Ventana extends JFrame {
             String[] dato = new String[3];
 
             while (rs.next()) {
-                  contCuentas++;
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
                 dato[2] = rs.getString(3);
-            
 
                 JLabel usuariocuenta = new JLabel();
                 JLabel saldocuenta = new JLabel();
@@ -313,33 +288,19 @@ public class Ventana extends JFrame {
                 usuariocuenta.setForeground(new Color(215, 173, 71));
                 saldocuenta.setForeground(new Color(215, 173, 71));
                 tipodecuenta.setForeground(new Color(215, 173, 71));
-                 nuevacuenta = nuevacuenta + 10;
+                nuevacuenta = nuevacuenta + 10;
                 repaint();
                 add(usuariocuenta);
                 add(saldocuenta);
                 add(tipodecuenta);
-               if(contCuentas==1){
-                   history.setVisible(true);
-               }
-               if(contCuentas==2){
-                   history2.setVisible(true);
-               }
-               if(contCuentas==3){
-                   history3.setVisible(true);
-               }
-               if(contCuentas==4){
-                   history4.setVisible(true);
-               }
-               if(contCuentas==5){
-                   history5.setVisible(true);
-               }
-              
+                if (contCuentas == 1) {
+                    history.setVisible(true);
+                }
+                contCuentas++;
             }
-  
+
         } catch (SQLException e1) {
         }
-              
-
 
         // BOTON HISTORIAL
         // BOTON CERRAR SESION

@@ -162,7 +162,7 @@ public class Registro {
         historyWindow.add(scroll, BorderLayout.SOUTH);
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT * FROM transactions WHERE email='" + Login.u + "';";
+            String query = "SELECT * FROM transactions WHERE email='" + Login.u +"' AND "+ "account_number='" + Ventana.dato + "';";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -171,7 +171,6 @@ public class Registro {
                 dato[2] = rs.getString(5);
                 dato[3] = rs.getString(6);
                 model.addRow(dato);
-
                 System.out.println(rs.getString(2) + " / " + rs.getString(4)
                         + " / " + rs.getString(5) + " / " + rs.getString(6));
             }
@@ -234,12 +233,12 @@ public class Registro {
                     String destinyAcc = cuentaDestino.getText();
                     String deposit = cantidad.getText();
                     String description = descripcion.getText();
-                    //String senderAcc = cuentaDestino.getText();
+                   // String senderAcc = cuentaDestino.getText();
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                        
-                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email) VALUES('"
-                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u +"');";
+                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email, account_number) VALUES('"
+                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "','" + Ventana.dato + "');";
                         System.out.println(query);
                         stat.executeUpdate(query);
                         String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number="
