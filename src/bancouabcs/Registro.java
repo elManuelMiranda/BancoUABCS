@@ -2,10 +2,10 @@ package bancouabcs;
 
 import static bancouabcs.Ventana.cont1;
 import static bancouabcs.Ventana.stat;
+import static bancouabcs.Ventana.stmt;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.GridBagLayout;
+import java.awt.Font;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +14,11 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.GroupLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -36,50 +35,59 @@ public class Registro {
     JPanel panelhistorial;
     JButton depositar;
     JButton back;
+
     public static Statement stmt;
+    JTextField cuentaDestino = new JTextField();
+    JTextField cantidad = new JTextField();
+    JTextField descripcion = new JTextField();
+    JLabel regi1 = new JLabel();
+    JLabel regi2 = new JLabel();
+    JLabel regi3 = new JLabel();
 
     public Registro() {
 
-        JLabel PRUEBA = new JLabel("hola");
-        JLabel balance = new JLabel("crayola");
         panelhistorial = new JPanel();
-        JButton transaccion = new JButton("");
 
-        PRUEBA.setOpaque(true);
-        PRUEBA.setBackground(Color.yellow);
-        panelhistorial.add(PRUEBA);
+        JButton PRUEBA = new JButton("hola");
+        
+        PRUEBA.setBounds(400, 50, 100, 50);
+  //MOSTRAR CUENTAS
+        try {
+            stmt = ConexionMySQL.conexion.createStatement();
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u +"'"+ "AND "+ "boton="+"'"+Ventana.h +"'";
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
 
-        balance.setOpaque(true);
-        balance.setBackground(Color.red);
-        panelhistorial.add(balance);
-        //BOTON TRANSACCION
-        transaccion.setFocusable(false);
-        transaccion.setBorder(null);
-        transaccion.setOpaque(false);
-        transaccion.setIcon(new ImageIcon(("transaccion.png")));
-        panelhistorial.add(transaccion);
+            String[] dato = new String[3];
 
-        GroupLayout layout = new GroupLayout(panelhistorial);
-        panelhistorial.setLayout(layout);
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+                
 
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
+                JLabel usuariocuenta = new JLabel();
+                JLabel saldocuenta = new JLabel();
+                JLabel tipodecuenta = new JLabel();
+                usuariocuenta.setText("Num de cuenta: " + rs.getString(1));
+                saldocuenta.setText("saldo de cuenta: " + rs.getString(2));
+                tipodecuenta.setText("Tipo de ceunta: " + rs.getString(3));
+                usuariocuenta.setBounds(35 , 150, 400, 200);
+                saldocuenta.setBounds(35 , 180, 400, 200);
+                tipodecuenta.setBounds(35 , 200, 400, 200);
+                usuariocuenta.setFont(new Font("Candra", 0, 20));
+                usuariocuenta.setForeground(new Color(215, 173, 71));
+                saldocuenta.setForeground(new Color(215, 173, 71));
+                tipodecuenta.setForeground(new Color(215, 173, 71));
 
-        layout.setHorizontalGroup(
-                layout.createSequentialGroup()
-                        .addComponent(PRUEBA)
-                        .addComponent(balance)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(transaccion))
-        );
-        layout.setVerticalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(PRUEBA)
-                                .addComponent(balance)
-                                .addComponent(transaccion))
-        );
+                 panelhistorial.add(usuariocuenta);
+                panelhistorial. add(saldocuenta);
+                 panelhistorial.add(tipodecuenta);
+                
+            }
 
+        } catch (SQLException e1) {
+        }
         JButton closeNRWindow = new JButton();
         closeNRWindow.setFocusable(false);
         closeNRWindow.setBorder(null);
@@ -119,9 +127,19 @@ public class Registro {
 
         // ATRIBUTOS DE LA VENTANA
         historyWindow = new JFrame("Historial");
-        historyWindow.setSize(600, 400);
+        historyWindow.setSize(1280, 720);
         historyWindow.setLocationRelativeTo(null);
         historyWindow.setUndecorated(false);
+
+        regi1.setIcon(new ImageIcon(("error.png")));
+        regi2.setIcon(new ImageIcon(("error.png")));
+        regi3.setIcon(new ImageIcon(("error.png")));
+        regi1.setVisible(false);
+        regi2.setVisible(false);
+        regi3.setVisible(false);
+        regi1.setBounds(355, 65, 30, 30);
+        regi2.setBounds(355, 160, 30, 30);
+        regi3.setBounds(355, 260, 30, 30);
 
         // TABLA CON HISTORIAL DEL USUARIO
         DefaultTableModel model = new DefaultTableModel() {
@@ -141,7 +159,7 @@ public class Registro {
         String[] dato = new String[4];
 
         JScrollPane scroll = new JScrollPane(table);
-        historyWindow.add(scroll, BorderLayout.CENTER);
+        historyWindow.add(scroll, BorderLayout.SOUTH);
         try {
             stmt = ConexionMySQL.conexion.createStatement();
             String query = "SELECT * FROM transactions WHERE email='" + Login.u + "';";
@@ -176,11 +194,16 @@ public class Registro {
             }
         });
 
-        JTextField cuentaDestino = new JTextField();
+        JButton transaccion = new JButton("");
+        transaccion.setFocusable(false);
+        transaccion.setBorder(null);
+        transaccion.setOpaque(false);
+        transaccion.setBackground(new Color(0, 0, 0, 0));
+        transaccion.setIcon(new ImageIcon(("transaccion.png")));
+        transaccion.setBounds(0, 0, 200, 100);
+
         cuentaDestino.setBounds(150, 65, 200, 25);
-        JTextField cantidad = new JTextField();
         cantidad.setBounds(150, 160, 200, 25);
-        JTextField descripcion = new JTextField();
         descripcion.setBounds(150, 260, 200, 25);
         // BOTON REALIZAR TRANSACCION
         JButton realizarTX = new JButton("Crear cuenta");
@@ -203,7 +226,9 @@ public class Registro {
         realizarTX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                cont1 = 0;
+                Validar();
+                System.out.println("contador=" + cont1);
                 //REALIZAR TRANSACCION----------------------------------
                 if (cont1 == 0) {
                     String destinyAcc = cuentaDestino.getText();
@@ -230,12 +255,16 @@ public class Registro {
                     newAccountWindow.dispose();
 
                 } else {
-
+                      JOptionPane.showMessageDialog(null, "Datos erróneos. Por favor, inténtelo otra vez.", "ACCESO DENEGADO",
+                                JOptionPane.ERROR_MESSAGE);
                 }
                 //ACTUALZIAR VENTANA
+                if (cont1 == 0) {
+                    historyWindow.dispose();
+                    Registro incia = new Registro();
 
-                Ventana mapa = new Ventana();
-                newAccountWindow.dispose();
+                }
+
             }
         });
         transaccion.addActionListener(new ActionListener() {
@@ -248,6 +277,9 @@ public class Registro {
                 newAccountWindow.setLayout(null);
                 newAccountWindow.setVisible(true);
                 newAccountWindow.add(realizarTX);
+                newAccountWindow.add(regi1);
+                newAccountWindow.add(regi2);
+                newAccountWindow.add(regi3);
                 newAccountWindow.add(closeNRWindow);
                 newAccountWindow.add(cuentaDestino);
                 newAccountWindow.add(cantidad);
@@ -256,8 +288,25 @@ public class Registro {
 
             }
         });
+        panelhistorial.add(PRUEBA);
         historyWindow.add(panelhistorial, BorderLayout.NORTH);
         historyWindow.setVisible(true);
+        panelhistorial.add(transaccion);
+    }
+
+    public void Validar() {
+        if (cuentaDestino.getText().equals("")) {
+            regi1.setVisible(true);
+            cont1++;
+        } else {
+            regi1.setVisible(false);
+        }
+        if (cantidad.getText().equals("")) {
+            regi2.setVisible(true);
+            cont1++;
+        } else {
+            regi2.setVisible(false);
+        }
     }
 
     private void add(JPanel panelhistorial) {

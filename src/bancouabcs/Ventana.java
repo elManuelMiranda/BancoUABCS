@@ -28,6 +28,7 @@ public class Ventana extends JFrame {
 
     JLabel fondoPresentacion;
     JFrame newAccountWindow;
+    public static String h;
     int cont = 0;
     int numregistros = 0;
     public static String coste;
@@ -39,6 +40,7 @@ public class Ventana extends JFrame {
     public static int cuenta;
     public static Statement stat;
     public int nuevacuenta = 1;
+    public int contadorBoton = 1;
 
     public Ventana() {
 
@@ -165,6 +167,10 @@ public class Ventana extends JFrame {
                 if (cont1 == 0) {
                     String balance = monto.getText();
                     String type = combo1.getSelectedItem().toString();
+                      contadorBoton=+1;
+                      nuevacuenta++;
+                      System.out.println(contadorBoton);
+                       System.out.println(nuevacuenta);
                     try {
                         stat = ConexionMySQL.conexion.createStatement();
                         String query = "INSERT INTO account (account_number,balance,type,email) values('"
@@ -173,7 +179,7 @@ public class Ventana extends JFrame {
                         stat.executeUpdate(query);
                     } catch (SQLException e1) {
                     }
-
+                          
                     repaint();
                     validate();
 
@@ -184,11 +190,11 @@ public class Ventana extends JFrame {
                 dispose();
                 Ventana mapa = new Ventana();
                 newAccountWindow.dispose();
-
+              
             }
         });
         add(newAccount);
-        
+
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -218,35 +224,37 @@ public class Ventana extends JFrame {
                 saldocuenta.setForeground(new Color(215, 173, 71));
                 tipodecuenta.setForeground(new Color(215, 173, 71));
 
+                JButton history = new JButton();
+                history.setName("" + contadorBoton);
+                h = history.getName();
+                history.setFocusable(false);
+                history.setBorder(null);
+                history.setOpaque(false);
+                history.setBackground(new Color(0, 0, 0, 0));
+                history.setIcon(new ImageIcon(("historial.png")));
+                history.setBounds(35 * nuevacuenta, 400, 200, 100);
+                history.addActionListener(new ActionListener() {
+                    @SuppressWarnings("static-access")
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        Registro historial = new Registro();
+                    
+                    }
+                });
+                add(history);
+                repaint();
                 add(usuariocuenta);
                 add(saldocuenta);
                 add(tipodecuenta);
-                nuevacuenta++;
-            }
+               
 
+            }
+  
         } catch (SQLException e1) {
         }
-        
+
         // BOTON HISTORIAL
-        JButton history = new JButton("");
-        history.setFocusable(false);
-        history.setBorder(null);
-        history.setOpaque(false);
-        history.setBackground(new Color(0, 0, 0, 0));
-        history.setIcon(new ImageIcon(("historial.png")));
-        history.setBounds(350, 350, 200, 100);
-        history.addActionListener(new ActionListener() {
-            @SuppressWarnings("static-access")
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Registro historial = new Registro();
-            }
-        });
-        add(history);
-        repaint();
-
-
         // BOTON CERRAR SESION
         JButton logOut = new JButton("");
         logOut.setFocusable(false);
