@@ -261,7 +261,9 @@ public class Registro {
                 //ACTUALZIAR VENTANA
                 if (cont1 == 0) {
                     historyWindow.dispose();
+                   
                     Registro incia = new Registro();
+                    Ventana inicio = new Ventana();
 
                 }
 
