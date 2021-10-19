@@ -28,13 +28,13 @@ public class Ventana extends JFrame {
 
     JLabel fondoPresentacion;
     JFrame newAccountWindow;
-  
+
     public static String h;
     int cont = 0;
     int numregistros = 0;
     public static String coste;
     public static String[] registros = new String[10];
-       public static String dato;
+    public static String dato;
     public static Statement stmt;
     private JComboBox<String> combo1;
     ResultSet rs;
@@ -43,7 +43,7 @@ public class Ventana extends JFrame {
     public static Statement stat;
     public int nuevacuenta = 1;
     public int espacio = 200;
- 
+
     public Ventana() {
 
         setTitle("Banco");
@@ -162,8 +162,8 @@ public class Ventana extends JFrame {
         fotoseleccionarcuenta.setBounds(0, 0, 500, 400);
         fotoseleccionarcuenta.setVisible(true);
         fotoseleccionarcuenta.setIcon(new ImageIcon(("seleccion.jpg")));
-         panelseleccionarcuenta.add(fotoseleccionarcuenta, 0);
-        
+        panelseleccionarcuenta.add(fotoseleccionarcuenta, 0);
+
         JButton history = new JButton("");
         history.setFocusable(false);
         history.setBorder(null);
@@ -184,24 +184,24 @@ public class Ventana extends JFrame {
                 newAccountWindow.add(seleccionarcuenta);
                 newAccountWindow.add(digitelacuenta);
                 newAccountWindow.add(fotoseleccionarcuenta);
-                
+
                 repaint();
                 validate();
 
-                
             }
         });
         add(history);
-        
+
         seleccionarcuenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dato=digitelacuenta.getText();
-                
-                 Registro historial = new Registro();
+                dato = digitelacuenta.getText();
+
+                Registro historial = new Registro();
+                dispose();
                 newAccountWindow.dispose();
-                }
-            });
+            }
+        });
 
         newAccount.addActionListener(new ActionListener() {
             @Override
@@ -219,12 +219,10 @@ public class Ventana extends JFrame {
                 newAccountWindow.add(fondoagregarcuenta);
                 repaint();
                 validate();
-               
+
             }
         });
-        
-        
-        
+
         acceptNewAcc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

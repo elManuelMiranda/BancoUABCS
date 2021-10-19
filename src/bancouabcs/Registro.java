@@ -47,10 +47,7 @@ public class Registro {
     public Registro() {
 
         panelhistorial = new JPanel();
-
-        JButton PRUEBA = new JButton("hola");
         
-        PRUEBA.setBounds(400, 50, 100, 50);
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -262,10 +259,8 @@ public class Registro {
                 //ACTUALZIAR VENTANA
                 if (cont1 == 0) {
                     historyWindow.dispose();
-                   
-                    Registro incia = new Registro();
                     Ventana inicio = new Ventana();
-
+                    Registro incia = new Registro();
                 }
 
             }
@@ -273,7 +268,8 @@ public class Registro {
         transaccion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
+                
                 newAccountWindow = new JFrame();
                 newAccountWindow.setSize(500, 400);
                 newAccountWindow.setLocationRelativeTo(null);
@@ -291,7 +287,6 @@ public class Registro {
 
             }
         });
-        panelhistorial.add(PRUEBA);
         historyWindow.add(panelhistorial, BorderLayout.NORTH);
         historyWindow.setVisible(true);
         panelhistorial.add(transaccion);
