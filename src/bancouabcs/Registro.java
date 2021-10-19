@@ -51,10 +51,11 @@ public class Registro {
         JButton PRUEBA = new JButton("hola");
         
         PRUEBA.setBounds(400, 50, 100, 50);
-  //MOSTRAR CUENTAS
+        //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u +"'"+ "AND "+ "boton="+"'"+Ventana.h +"'";
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" 
+                    + Login.u +"'"+ "AND "+ "account_number="+"'" + Ventana.h +"'";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
@@ -238,17 +239,17 @@ public class Registro {
                         stat = ConexionMySQL.conexion.createStatement();
                        
                         String query = "INSERT INTO transactions (destinyAcc, deposit, description, email, account_number) VALUES('"
-                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "','" + destinyAcc+ "');";
+                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "','" + Ventana.dato + "');";
                         System.out.println(query);
                         stat.executeUpdate(query);
                         String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number="
                                 + destinyAcc + ";";
                         System.out.println(query2);
                         stat.executeUpdate(query2);
-                        /*String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
-                                + senderAcc + ";";
+                        String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
+                                + Ventana.dato + ";";
                         System.out.println(query3);
-                        stat.executeUpdate(query3);*/
+                        stat.executeUpdate(query3);
                     } catch (SQLException e1) {
                     }
 
