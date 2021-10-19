@@ -7,7 +7,9 @@ package bancouabcs;
 
 /**
  *
- * @author USER
+ * Manuel Antonio Floriano Miranda
+ * Emmanuel Kugue Tapiz
+ * Luis Pablo Escalante Mireles
  */
 public class BancoUABCS {
 
