@@ -51,12 +51,26 @@ public class Registro {
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'"+ "AND " +"account_number="+"'"+ Ventana.dato + "'";
+
+            String query2 = "SELECT date FROM transactions WHERE id=(SELECT max(id) FROM transactions WHERE account_number='" + Ventana.dato + "')";
+            System.out.println(query2);
+            ResultSet rs2 = stmt.executeQuery(query2);
+
+            String[] dato2 = new String[1];
+            while (rs2.next()) {
+                dato2[0] = rs2.getString(1);
+
+                JLabel fecha = new JLabel();
+                fecha.setText("Ultimo movimiento: " + rs2.getString(1));
+                fecha.setBounds(20, 5, 500, 100);
+                fecha.setFont(new Font("Candra", 0, 20));
+                fecha.setForeground(new Color(215, 173, 71));
+                panelhistorial.add(fecha);
+            }
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'" + "AND " + "account_number=" + "'" + Ventana.dato + "'";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
-
             String[] dato = new String[3];
-
             while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
@@ -67,7 +81,7 @@ public class Registro {
                 usuarioname.setBounds(20, 5, 500, 100);
                 usuarioname.setFont(new Font("Candra", 0, 20));
                 usuarioname.setForeground(new Color(215, 173, 71));
-               panelhistorial.add(usuarioname);
+                panelhistorial.add(usuarioname);
             }
 
         } catch (SQLException e1) {

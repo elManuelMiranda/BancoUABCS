@@ -171,7 +171,7 @@ public class Ventana extends JFrame {
         history.setOpaque(false);
         history.setBackground(new Color(0, 0, 0, 0));
         history.setIcon(new ImageIcon(("historial.png")));
-        history.setBounds(20, 300, 200, 100);
+        history.setBounds(750, 150, 200, 100);
         history.addActionListener(new ActionListener() {
             @SuppressWarnings("static-access")
             @Override
@@ -258,7 +258,7 @@ public class Ventana extends JFrame {
             }
         });
         add(newAccount);
-        int contCuentas = 0;
+        
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -291,10 +291,7 @@ public class Ventana extends JFrame {
                 add(usuariocuenta);
                 add(saldocuenta);
                 add(tipodecuenta);
-                if (contCuentas == 1) {
-                    history.setVisible(true);
-                }
-                contCuentas++;
+                history.setVisible(true);
             }
 
         } catch (SQLException e1) {
