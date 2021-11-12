@@ -28,6 +28,7 @@ public class Ventana extends JFrame {
 
     JLabel fondoPresentacion;
     JFrame newAccountWindow;
+    JFrame enterAccountWindow;
 
     public static String h;
     int cont = 0;
@@ -48,9 +49,10 @@ public class Ventana extends JFrame {
 
         setTitle("Banco");
         setSize(1000, 500);
-        setVisible(true);
         setLocation(200, 150);
+        setVisible(true);
         setLayout(null);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image myIcon = tk.getImage("ico.png");
@@ -176,14 +178,15 @@ public class Ventana extends JFrame {
             @SuppressWarnings("static-access")
             @Override
             public void actionPerformed(ActionEvent e) {
-                newAccountWindow = new JFrame();
-                newAccountWindow.setSize(500, 400);
-                newAccountWindow.setLocationRelativeTo(null);
-                newAccountWindow.setLayout(null);
-                newAccountWindow.setVisible(true);
-                newAccountWindow.add(seleccionarcuenta);
-                newAccountWindow.add(digitelacuenta);
-                newAccountWindow.add(fotoseleccionarcuenta);
+                enterAccountWindow = new JFrame();
+                enterAccountWindow.setSize(500, 400);
+                enterAccountWindow.setLocationRelativeTo(null);
+                enterAccountWindow.setLayout(null);
+                enterAccountWindow.setVisible(true);
+                enterAccountWindow.setResizable(false);
+                enterAccountWindow.add(seleccionarcuenta);
+                enterAccountWindow.add(digitelacuenta);
+                enterAccountWindow.add(fotoseleccionarcuenta);
 
                 repaint();
                 validate();
@@ -196,10 +199,25 @@ public class Ventana extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dato = digitelacuenta.getText();
+                //---------------------------------------
+                try {
+                    stmt = ConexionMySQL.conexion.createStatement();
+                    String query = "SELECT `account_number` FROM `account` WHERE `account_number`='" + dato + "'";
+                    System.out.println(query);
+                    ResultSet rs = stmt.executeQuery(query);
+                    //String[] dato = new String[3];
+                    if (rs.next()) {
 
-                Registro historial = new Registro();
-                dispose();
-                newAccountWindow.dispose();
+                        Registro historial = new Registro();
+                        dispose();
+                        enterAccountWindow.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Account not found");
+                    }
+
+                } catch (SQLException e1) {
+                }
+
             }
         });
 
@@ -212,6 +230,7 @@ public class Ventana extends JFrame {
                 newAccountWindow.setLocationRelativeTo(null);
                 newAccountWindow.setLayout(null);
                 newAccountWindow.setVisible(true);
+                newAccountWindow.setResizable(false);
                 newAccountWindow.add(acceptNewAcc);
                 newAccountWindow.add(closeNRWindow);
                 newAccountWindow.add(combo1);
@@ -258,7 +277,7 @@ public class Ventana extends JFrame {
             }
         });
         add(newAccount);
-        
+
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -276,8 +295,8 @@ public class Ventana extends JFrame {
                 JLabel usuariocuenta = new JLabel();
                 JLabel saldocuenta = new JLabel();
                 JLabel tipodecuenta = new JLabel();
-                usuariocuenta.setText("Num de cuenta: " + rs.getString(1));
-                saldocuenta.setText("saldo de cuenta: " + rs.getString(2));
+                usuariocuenta.setText("# Cuenta: " + rs.getString(1));
+                saldocuenta.setText("Saldo de cuenta: " + rs.getString(2));
                 tipodecuenta.setText("Tipo de ceunta: " + rs.getString(3));
                 usuariocuenta.setBounds(20 * nuevacuenta, 150, 400, 200);
                 saldocuenta.setBounds(20 * nuevacuenta, 180, 400, 200);
@@ -297,7 +316,6 @@ public class Ventana extends JFrame {
         } catch (SQLException e1) {
         }
 
-        // BOTON HISTORIAL
         // BOTON CERRAR SESION
         JButton logOut = new JButton("");
         logOut.setFocusable(false);

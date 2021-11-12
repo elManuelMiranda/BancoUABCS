@@ -25,7 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class Registro {
+public class Registro extends JFrame {
 
     JFrame historyWindow;
     JFrame newAccountWindow;
@@ -37,6 +37,7 @@ public class Registro {
     JButton back;
 
     public static Statement stmt;
+    public static int cont2;
     JTextField cuentaDestino = new JTextField();
     JTextField cantidad = new JTextField();
     JTextField descripcion = new JTextField();
@@ -47,7 +48,7 @@ public class Registro {
     public Registro() {
 
         panelhistorial = new JPanel();
-        
+
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
@@ -87,32 +88,6 @@ public class Registro {
         } catch (SQLException e1) {
         }
 
-        JButton closeNRWindow = new JButton();
-        closeNRWindow.setFocusable(false);
-        closeNRWindow.setBorder(null);
-        closeNRWindow.setOpaque(false);
-        closeNRWindow.setContentAreaFilled(false);
-        closeNRWindow.setBackground(new Color(0, 0, 0, 0));
-        closeNRWindow.setIcon(new ImageIcon(("cerrar.png")));
-        closeNRWindow.setBounds(420, 5, 50, 50);
-        closeNRWindow.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                closeNRWindow.setIcon(new ImageIcon("cerrar2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                closeNRWindow.setIcon(new ImageIcon("cerrar.png"));
-            }
-        });
-        closeNRWindow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                newAccountWindow.dispose();
-            }
-        });
-
         JPanel panelTransaccion = new JPanel();
         panelTransaccion.setSize(500, 400);
         panelTransaccion.setLocation(0, 0);
@@ -129,6 +104,13 @@ public class Registro {
         historyWindow.setSize(1280, 720);
         historyWindow.setLocationRelativeTo(null);
         historyWindow.setUndecorated(false);
+
+        historyWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                Ventana inicio = new Ventana();
+            }
+        });
 
         regi1.setIcon(new ImageIcon(("error.png")));
         regi2.setIcon(new ImageIcon(("error.png")));
@@ -161,7 +143,7 @@ public class Registro {
         historyWindow.add(scroll, BorderLayout.SOUTH);
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT * FROM transactions WHERE email='" + Login.u +"' AND "+ "account_number='" + Ventana.dato + "';";
+            String query = "SELECT * FROM transactions WHERE email='" + Login.u + "' AND " + "account_number='" + Ventana.dato + "';";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -203,6 +185,7 @@ public class Registro {
         cuentaDestino.setBounds(150, 65, 200, 25);
         cantidad.setBounds(150, 160, 200, 25);
         descripcion.setBounds(150, 260, 200, 25);
+
         // BOTON REALIZAR TRANSACCION
         JButton realizarTX = new JButton("Crear cuenta");
         realizarTX.setIcon(new ImageIcon("realizarTX.png"));
@@ -228,40 +211,61 @@ public class Registro {
                 Validar();
                 System.out.println("contador=" + cont1);
                 //REALIZAR TRANSACCION----------------------------------
+
                 if (cont1 == 0) {
                     String destinyAcc = cuentaDestino.getText();
                     String deposit = cantidad.getText();
                     String description = descripcion.getText();
-                   // String senderAcc = cuentaDestino.getText();
+                    // String senderAcc = cuentaDestino.getText();
                     try {
-                        stat = ConexionMySQL.conexion.createStatement();
-                       
-                        String query = "INSERT INTO transactions (destinyAcc, deposit, description, email, account_number) VALUES('"
-                                + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "','" + Ventana.dato + "');";
+                        stmt = ConexionMySQL.conexion.createStatement();
+                        String query = "SELECT `account_number` FROM `account` WHERE `account_number`='" + destinyAcc + "'";
                         System.out.println(query);
-                        stat.executeUpdate(query);
-                        String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number="
-                                + destinyAcc + ";";
-                        System.out.println(query2);
-                        stat.executeUpdate(query2);
-                        String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number=" 
-                                + Ventana.dato + ";";
-                        System.out.println(query3);
-                        stat.executeUpdate(query3);
+                        System.out.println(destinyAcc);
+                        ResultSet rs = stmt.executeQuery(query);
+
+                        if (rs.next()) {
+                            cont2++;
+                            try {
+                                stat = ConexionMySQL.conexion.createStatement();
+                                String query1 = "INSERT INTO transactions (destinyAcc, deposit, description, email, account_number) VALUES('"
+                                        + destinyAcc + "','" + deposit + "','" + description + "','" + Login.u + "','" + Ventana.dato + "');";
+                                System.out.println(query1);
+                                stat.executeUpdate(query1);
+                                String query2 = "UPDATE account SET balance=balance+" + deposit + " WHERE account_number="
+                                        + destinyAcc + ";";
+                                System.out.println(query2);
+                                stat.executeUpdate(query2);
+                                String query3 = "UPDATE account SET balance=balance-" + deposit + " WHERE account_number="
+                                        + Ventana.dato + ";";
+                                System.out.println(query3);
+                                stat.executeUpdate(query3);
+                            } catch (SQLException e1) {
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Account not found");
+                        }
+
                     } catch (SQLException e1) {
+                        cuentaDestino.setText("");
+                        cantidad.setText("");
+                        descripcion.setText("");
+                    }
+                    //------------------------
+                    if (cont2 != 0) {
+                        newAccountWindow.dispose();
                     }
 
-                    newAccountWindow.dispose();
-
                 } else {
-                      JOptionPane.showMessageDialog(null, "Datos erróneos. Por favor, inténtelo otra vez.", "ACCESO DENEGADO",
-                                JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Datos erróneos. Por favor, inténtelo otra vez.", "ACCESO DENEGADO",
+                            JOptionPane.ERROR_MESSAGE);
                 }
                 //ACTUALZIAR VENTANA
-                if (cont1 == 0) {
+                if (cont2 != 0) {
                     historyWindow.dispose();
                     Ventana inicio = new Ventana();
                     Registro incia = new Registro();
+                    cont2 = 0;
                 }
 
             }
@@ -269,18 +273,17 @@ public class Registro {
         transaccion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                
+
                 newAccountWindow = new JFrame();
                 newAccountWindow.setSize(500, 400);
                 newAccountWindow.setLocationRelativeTo(null);
                 newAccountWindow.setLayout(null);
                 newAccountWindow.setVisible(true);
+                newAccountWindow.setResizable(false);
                 newAccountWindow.add(realizarTX);
                 newAccountWindow.add(regi1);
                 newAccountWindow.add(regi2);
                 newAccountWindow.add(regi3);
-                newAccountWindow.add(closeNRWindow);
                 newAccountWindow.add(cuentaDestino);
                 newAccountWindow.add(cantidad);
                 newAccountWindow.add(descripcion);
@@ -307,9 +310,4 @@ public class Registro {
             regi2.setVisible(false);
         }
     }
-
-    private void add(JPanel panelhistorial) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
