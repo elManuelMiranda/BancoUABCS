@@ -51,8 +51,7 @@ public class Registro {
         //MOSTRAR CUENTAS
         try {
             stmt = ConexionMySQL.conexion.createStatement();
-            String query = "SELECT account_number,balance,type FROM account WHERE email='" 
-                    + Login.u +"'"+ "AND "+ "account_number="+"'" + Ventana.h +"'";
+            String query = "SELECT account_number,balance,type FROM account WHERE email='" + Login.u + "'"+ "AND " +"account_number="+"'"+ Ventana.dato + "'";
             System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
@@ -62,30 +61,18 @@ public class Registro {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
                 dato[2] = rs.getString(3);
-                
 
-                JLabel usuariocuenta = new JLabel();
-                JLabel saldocuenta = new JLabel();
-                JLabel tipodecuenta = new JLabel();
-                usuariocuenta.setText("Num de cuenta: " + rs.getString(1));
-                saldocuenta.setText("saldo de cuenta: " + rs.getString(2));
-                tipodecuenta.setText("Tipo de ceunta: " + rs.getString(3));
-                usuariocuenta.setBounds(35 , 150, 400, 200);
-                saldocuenta.setBounds(35 , 180, 400, 200);
-                tipodecuenta.setBounds(35 , 200, 400, 200);
-                usuariocuenta.setFont(new Font("Candra", 0, 20));
-                usuariocuenta.setForeground(new Color(215, 173, 71));
-                saldocuenta.setForeground(new Color(215, 173, 71));
-                tipodecuenta.setForeground(new Color(215, 173, 71));
-
-                 panelhistorial.add(usuariocuenta);
-                panelhistorial. add(saldocuenta);
-                 panelhistorial.add(tipodecuenta);
-                
+                JLabel usuarioname = new JLabel();
+                usuarioname.setText("Numero de cuenta: " + rs.getString(1) + "  \n Saldo de la cuenta: " + rs.getString(2) + "  \n Tipo de cuenta: " + rs.getString(3));
+                usuarioname.setBounds(20, 5, 500, 100);
+                usuarioname.setFont(new Font("Candra", 0, 20));
+                usuarioname.setForeground(new Color(215, 173, 71));
+               panelhistorial.add(usuarioname);
             }
 
         } catch (SQLException e1) {
         }
+
         JButton closeNRWindow = new JButton();
         closeNRWindow.setFocusable(false);
         closeNRWindow.setBorder(null);
@@ -151,7 +138,7 @@ public class Registro {
         model.addColumn("Fechas");
         model.addColumn("Descripcion");
         model.addColumn("Depositos");
-        model.addColumn("Retiros");
+        model.addColumn("Cuenta destinatario");
         table.setModel(model);
         table.getTableHeader().setReorderingAllowed(false);
         String[] dato = new String[4];
@@ -167,10 +154,10 @@ public class Registro {
                 dato[0] = rs.getString(2);
                 dato[1] = rs.getString(4);
                 dato[2] = rs.getString(5);
-                dato[3] = rs.getString(6);
+                dato[3] = rs.getString(3);
                 model.addRow(dato);
                 System.out.println(rs.getString(2) + " / " + rs.getString(4)
-                        + " / " + rs.getString(5) + " / " + rs.getString(6));
+                        + " / " + rs.getString(5) + " / " + rs.getString(3));
             }
         } catch (SQLException e1) {
         }
