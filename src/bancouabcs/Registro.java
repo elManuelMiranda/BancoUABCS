@@ -244,12 +244,12 @@ public class Registro extends JFrame {
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Account not found");
+                            cuentaDestino.setText("");
+                            cantidad.setText("");
+                            descripcion.setText("");
                         }
 
                     } catch (SQLException e1) {
-                        cuentaDestino.setText("");
-                        cantidad.setText("");
-                        descripcion.setText("");
                     }
                     //------------------------
                     if (cont2 != 0) {
